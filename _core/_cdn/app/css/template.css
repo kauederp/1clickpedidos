@@ -1773,6 +1773,7 @@ height: auto;
 	flex-wrap:wrap;
 	display: flex;
 	flex-direction: row;
+	gap:10px;
 }
 
 .comprar .line-variacao {
