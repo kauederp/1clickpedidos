@@ -785,7 +785,7 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  setTimeout(() => {
+  setInterval(() => {
     document.querySelectorAll("span").forEach(e => {
       if (e.innerText == "visibility" || e.innerText == "visibility_off") {
 
