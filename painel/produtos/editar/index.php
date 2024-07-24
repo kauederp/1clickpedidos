@@ -794,7 +794,8 @@ include('../../_layout/footer.php');
           e.innerText = "visibility_off"
           document.querySelector(".esconder-input").value = false
         })
-      }else if (e.innerText == "visibility_off") {
+      }
+      if (e.innerText == "visibility_off") {
         e.addEventListener("click",()=>{
           e.innerText = "visibility"
           document.querySelector(".esconder-input").value = true
