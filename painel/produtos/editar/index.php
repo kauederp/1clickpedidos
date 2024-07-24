@@ -559,13 +559,13 @@ if ($formdata) {
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
                                                                 <div class='esconder text-primary esconder-item'>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'd-none' : ''); ?> material-symbols-outlined">
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])=='false'?'d-none':'');?> material-symbols-outlined">
                                                                     visibility
                                                                   </span>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) != 'false' ? 'd-none' : ''); ?> material-symbols-outlined">
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])!='false'?'d-none':'');?> material-symbols-outlined">
                                                                     visibility_off
                                                                   </span>
-
+                                                                  
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
                                                                 </div>
                                                               </div>
@@ -785,43 +785,44 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  $(document).ready(function() {
+  setTimeout(() => {
+    document.querySelectorAll("span").forEach(e => {
+      if (e.innerText == "visibility") {
+        let eyeSlash = e.parentElement.children[1]
+        let eye = e
+        eye.addEventListener("click", () => {
+          eye.classList.add("d-none")
+          document.querySelector(".esconder-input").value = "false"
 
-    setInterval(() => {
-      document.querySelectorAll("span").forEach(e => {
-        if (e.innerText == "visibility") {
-
-          let eye = e
-          let eyeSlash = e.parentElement.children[1]
-          eye.addEventListener("click", () => {
-            eye.classList.add("d-none")
-            document.querySelector(".esconder-input").value = "false"
-
-            eyeSlash.classList.remove("d-none")
-            eyeSlash.addEventListener("click", () => {
-              eyeSlash.classList.add("d-none")
-              eye.classList.remove("d-none")
-              document.querySelector(".esconder-input").value = "true"
-            })
-
-          })
-        }
-        if (e.innerText == "visibility_off") {
-          let eye = e.parentElement.children[0];
-          let eyeSlash = e;
+          eyeSlash.classList.remove("d-none")
           eyeSlash.addEventListener("click", () => {
             eyeSlash.classList.add("d-none")
-            eye.addEventListener("click", () => {
-              eye.classList.add("d-none")
-              document.querySelector(".esconder-input").value = "false"
-              eyeSlash.classList.remove("d-none")
-            })
             eye.classList.remove("d-none")
             document.querySelector(".esconder-input").value = "true"
           })
-        }
-      })
-    }, 2000)
+        })
+      }
+
+      if (e.innerText == "visibility_off") {
+        let eyeSlash = e.parentElement.children[1]
+        let eye = e
+        eye.addEventListener("click", () => {
+          eye.classList.add("d-none")
+          document.querySelector(".esconder-input").value = "false"
+
+          eyeSlash.classList.remove("d-none")
+          eyeSlash.addEventListener("click", () => {
+            eyeSlash.classList.add("d-none")
+            eye.classList.remove("d-none")
+            document.querySelector(".esconder-input").value = "true"
+          })
+        })
+      }
+    })
+  }, 2000)
+  $(document).ready(function() {
+
+
     // Globais
 
     $("#the_form").validate({
