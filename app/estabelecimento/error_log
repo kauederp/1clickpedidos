@@ -1,0 +1,6 @@
+[13-Apr-2024 13:51:51 America/Fortaleza] PHP Warning:  include(/_layout/define.php): failed to open stream: No such file or directory in /home4/hg1cli38/public_html/app/estabelecimento/index.php on line 3
+[13-Apr-2024 13:51:51 America/Fortaleza] PHP Warning:  include(): Failed opening '/_layout/define.php' for inclusion (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/hg1cli38/public_html/app/estabelecimento/index.php on line 3
+[13-Apr-2024 13:51:51 America/Fortaleza] PHP Fatal error:  Uncaught Error: Call to undefined function is_active() in /home4/hg1cli38/public_html/app/estabelecimento/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /home4/hg1cli38/public_html/app/estabelecimento/index.php on line 7

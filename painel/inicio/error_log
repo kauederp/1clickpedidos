@@ -1,0 +1,8 @@
+[15-Dec-2022 11:31:32 America/Sao_Paulo] PHP Fatal error:  Cannot redeclare delete_agendamento() (previously declared in /home1/veloximportscom/public_html/_core/_includes/functions/data.php:3175) in /home1/veloximportscom/public_html/_core/_includes/functions/aditional.php on line 201
+[15-Dec-2022 11:31:57 America/Sao_Paulo] PHP Notice:  Trying to access array offset on value of type null in /home1/veloximportscom/public_html/_core/_includes/functions/upload.php on line 619
+[15-Dec-2022 11:31:57 America/Sao_Paulo] PHP Notice:  Trying to access array offset on value of type null in /home1/veloximportscom/public_html/_core/_includes/functions/upload.php on line 619
+[15-Dec-2022 11:31:57 America/Sao_Paulo] PHP Notice:  Undefined index: busca in /home1/veloximportscom/public_html/painel/_layout/sidebars.php on line 20
+[15-Dec-2022 11:31:57 America/Sao_Paulo] PHP Notice:  Trying to access array offset on value of type null in /home1/veloximportscom/public_html/_core/_includes/functions/upload.php on line 619
+[15-Dec-2022 11:31:57 America/Sao_Paulo] PHP Notice:  Undefined index: msg in /home1/veloximportscom/public_html/painel/inicio/index.php on line 56
+[15-Dec-2022 11:31:57 America/Sao_Paulo] PHP Notice:  Undefined index: msg in /home1/veloximportscom/public_html/painel/inicio/index.php on line 62
+[15-Dec-2022 11:31:57 America/Sao_Paulo] PHP Notice:  Undefined index: msg in /home1/veloximportscom/public_html/painel/inicio/index.php on line 68
