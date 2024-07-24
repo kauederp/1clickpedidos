@@ -790,7 +790,7 @@ include('../../_layout/footer.php');
 
 setInterval(() => {
     document.querySelectorAll("span").forEach(e => {
-      if (e.innerText == "visibility" || e.innerText == "visibility_off") {
+      if (e.innerText == "visibility") {
         let eyeSlash = e.parentElement.children[1]
         let eye = e.parentElement.children[0]
         eye.addEventListener("click", () => {
@@ -798,12 +798,13 @@ setInterval(() => {
           document.querySelector(".esconder-input").value = "false"
 
           eyeSlash.classList.remove("d-none")
-          eyeSlash.addEventListener("click", () => {
+          
+        })
+        eyeSlash.addEventListener("click", () => {
             eyeSlash.classList.add("d-none")
             eye.classList.remove("d-none")
             document.querySelector(".esconder-input").value = "true"
           })
-        })
       }
     })
   }, 2000)
