@@ -785,7 +785,9 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  setTimeout(() => {
+  
+  $(document).ready(function() {
+    setTimeout(() => {
     document.querySelectorAll("span").forEach(e => {
       if (e.innerText == "visibility") {
         e.addEventListener("click",()=>{
@@ -802,7 +804,6 @@ include('../../_layout/footer.php');
       
     })
   }, 2000)
-  $(document).ready(function() {
 
 
     // Globais
