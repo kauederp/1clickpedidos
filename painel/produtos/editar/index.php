@@ -796,17 +796,18 @@ include('../../_layout/footer.php');
         eye.addEventListener("click", () => {
           eye.classList.add("d-none")
           document.querySelector(".esconder-input").value = "false"
-
+          console.log("ok")
           eyeSlash.classList.remove("d-none")
           eyeSlash.addEventListener("click", () => {
             eyeSlash.classList.add("d-none")
             eye.classList.remove("d-none")
+            console.log("esconde")
             document.querySelector(".esconder-input").value = "true"
           })
         })
       }
     })
-    console.log("ok")
+    
   }, 2000)
     // Globais
 
