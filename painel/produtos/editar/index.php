@@ -71,6 +71,7 @@ if ($formdata) {
     for ($y = 0; $y < count($variacao[$x]['item']); $y++) {
       $variacao[$x]['item'][$y]['nome'] =  jsonsave($variacao[$x]['item'][$y]['nome']);
       $variacao[$x]['item'][$y]['descricao'] =  jsonsave($variacao[$x]['item'][$y]['descricao']);
+      $variacao[$x]['item'][$y]['esconder'] =  jsonsave($variacao[$x]['item'][$y]['esconder']);
       $variacao[$x]['item'][$y]['valor'] = jsonsave(dinheiro(mysqli_real_escape_string($db_con, $variacao[$x]['item'][$y]['valor'])));
     }
   }
@@ -564,6 +565,7 @@ if ($formdata) {
                                                                   <span class="d-none material-symbols-outlined">
                                                                     visibility_off
                                                                   </span>
+                                                                  <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -789,11 +791,13 @@ include('../../_layout/footer.php');
         let eye = e
         eye.addEventListener("click", () => {
           eye.classList.add("d-none")
+          document.querySelector(".esconder-input").value = "false"
 
           eyeSlash.classList.remove("d-none")
           eyeSlash.addEventListener("click", () => {
             eyeSlash.classList.add("d-none")
             eye.classList.remove("d-none")
+            document.querySelector(".esconder-input").value = "true"
           })
         })
       }
@@ -984,6 +988,7 @@ include('../../_layout/footer.php');
         $(this).attr("item-id", item);
         $(this).find(".item-nome").attr("name", "variacao[" + variacao_pai + "][item][" + item + "][nome]");
         $(this).find(".item-descricao").attr("name", "variacao[" + variacao_pai + "][item][" + item + "][descricao]");
+        $(this).find(".esconder-input").attr("name", "variacao[" + variacao_pai + "][item][" + item + "][esconder]");
         $(this).find(".item-valor").attr("name", "variacao[" + variacao_pai + "][item][" + item + "][valor]");
         item++;
 
