@@ -328,7 +328,8 @@ die(); */
 																$q=0;
 																if(base64_decode($variacao[$x]['item'][$y]['esconder'])=='false'){
 																	$q++;
-																}else{
+																}
+																if(base64_decode($variacao[$x]['item'][$y]['esconder'])!='false'){
 															?>
 
 															<div class="opcao <?php if( variacao_opcao_ativa( $data_content['id'],$x,$y ) ) { echo 'active'; };?>" variacao-item="<?php echo $y-$q; ?>" nomeda-variacao="<?php echo htmljson( $variacao[$x]['nome'] ) ;?>" valor-adicional="<?php echo htmljson( $variacao[$x]['item'][$y]['valor'] ); ?>">
