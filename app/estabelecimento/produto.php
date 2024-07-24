@@ -325,11 +325,13 @@ die(); */
 
 															<?php
 															for( $y=0; $y < count( $variacao[$x]['item'] ); $y++ ){
-																
-																if(base64_decode($variacao[$x]['item'][$y]['esconder'])!='false'){
+																$q=0;
+																if(base64_decode($variacao[$x]['item'][$y]['esconder'])=='false'){
+																	$q++;
+																}else{
 															?>
 
-															<div class="opcao <?php if( variacao_opcao_ativa( $data_content['id'],$x,$y ) ) { echo 'active'; };?>" variacao-item="<?php echo base64_decode($variacao[$x]['item'][$y]['esconder'])=='false'?$y-1:$y; ?>" nomeda-variacao="<?php echo htmljson( $variacao[$x]['nome'] ) ;?>" valor-adicional="<?php echo htmljson( $variacao[$x]['item'][$y]['valor'] ); ?>">
+															<div class="opcao <?php if( variacao_opcao_ativa( $data_content['id'],$x,$y ) ) { echo 'active'; };?>" variacao-item="<?php echo $y-$q; ?>" nomeda-variacao="<?php echo htmljson( $variacao[$x]['nome'] ) ;?>" valor-adicional="<?php echo htmljson( $variacao[$x]['item'][$y]['valor'] ); ?>">
 
 																<div class="check">
 																	<i class="lni"></i>
