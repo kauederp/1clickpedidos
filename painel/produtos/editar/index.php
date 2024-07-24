@@ -559,12 +559,8 @@ if ($formdata) {
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
                                                                 <div class='esconder text-primary esconder-item'>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'd-none' : ''); ?> material-symbols-outlined">
-                                                                    visibility
-                                                                  </span>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) != 'false' ? 'd-none' : ''); ?> material-symbols-outlined">
-                                                                    visibility_off
-                                                                  </span>
+                                                                  <i class="lni lni-eye text-<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'danger' : 'primary'); ?> "></i>
+
 
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
                                                                 </div>
@@ -785,31 +781,13 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-var toggles = () => {
-    document.querySelectorAll("span").forEach(e => {
-      if (e.innerText == "visibility" || e.innerText == "visibility_off") {
+  var toggles = () => {
+    document.querySelectorAll(".lni.lni-eye").forEach(e => {
 
-        e.addEventListener("click", () => {
 
-          if (e.innerText == "visibility") {
-            e.innerText = "visibility_off"
-            document.querySelector(".esconder-input").value = false
-            console.log(false)
-            console.log(e)
-            return
-          }
-          
-
-          if (e.innerText == "visibility_off") {
-
-            e.innerText = "visibility"
-            document.querySelector(".esconder-input").value = true
-            console.log(true)
-            console.log(e)
-            return
-          }
-          
-        })
+      e.onclick = () => {
+        e.classList.add("text-danger")
+        document.querySelector(".esconder-input").value = false
       }
 
 
@@ -817,10 +795,12 @@ var toggles = () => {
 
     })
   }
-  setInterval(()=>{toggles();},200)
+  setInterval(() => {
+    toggles();
+  }, 200)
   $(document).ready(function() {
 
-    
+
     // Globais
 
     $("#the_form").validate({
@@ -980,11 +960,11 @@ var toggles = () => {
   }
 
   function reordena() {
-    
+
     var variacao = 0;
 
     $(".variacao").each(function() {
-      
+
       $(this).closest(".panel-subvariacao").find(".subvariacao-link").attr("href", "#collapse-subvariacao-" + variacao);
       $(this).closest(".panel-subvariacao").find(".subvariacao-body").attr("id", "collapse-subvariacao-" + variacao);
       $(this).closest(".panel-subvariacao").find(".adicionar-item").attr("variacao-id", variacao);
