@@ -795,16 +795,20 @@ include('../../_layout/footer.php');
             e.innerText = "visibility_off"
             document.querySelector(".esconder-input").value = false
             console.log(false)
+            console.log(e)
+            return
           }
-          console.log(e)
+          
 
           if (e.innerText == "visibility_off") {
 
             e.innerText = "visibility"
             document.querySelector(".esconder-input").value = true
             console.log(true)
+            console.log(e)
+            return
           }
-          console.log(e)
+          
         })
       }
 
