@@ -559,7 +559,7 @@ if ($formdata) {
                                                                 </div>
                                                                 <div class='esconder esconder-item'>
                                                                   <span class="material-symbols-outlined">
-                                                                    visibility_on
+                                                                    visibility
                                                                   </span>
                                                                   <span class="d-none material-symbols-outlined">
                                                                     visibility_off
@@ -784,6 +784,19 @@ include('../../_layout/footer.php');
 <script>
   $(document).ready(function() {
 
+    document.querySelectorAll("span").forEach(e => {
+      if (e.innerText == "visibility") {
+        e.addEventListner("click", () => {
+          e.classList.add("d-none")
+          let eyeSlash = e.parentElement.children[1]
+          eyeSlash.classList.remove("d-none")
+          eyeSlash.addEventListner("click", () => {
+            eyeSlash.classList.add("d-none")
+            eyeSlash.parentElement.children[0].classList.remove("d-none")
+          })
+        })
+      }
+    })
     // Globais
 
     $("#the_form").validate({
