@@ -790,7 +790,7 @@ include('../../_layout/footer.php');
 
 setInterval(() => {
     document.querySelectorAll("span").forEach(e => {
-      if (e.innerText == "visibility") {
+      if (e.innerText == "visibility" || e.innerText == "visibility_off") {
         let eyeSlash = e.parentElement.children[1]
         let eye = e
         eye.addEventListener("click", () => {
