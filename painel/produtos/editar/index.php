@@ -558,11 +558,11 @@ if ($formdata) {
                                                                 <div class='remover deletar-item'>
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
-                                                                <div class='esconder esconder-item'>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])!='false'?'d-none':'');?> material-symbols-outlined">
+                                                                <div class='esconder text-primary esconder-item'>
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])=='false'?'d-none':'');?> material-symbols-outlined">
                                                                     visibility
                                                                   </span>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])=='false'?'d-none':'');?> material-symbols-outlined">
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])!='false'?'d-none':'');?> material-symbols-outlined">
                                                                     visibility_off
                                                                   </span>
                                                                   
