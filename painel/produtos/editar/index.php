@@ -559,13 +559,13 @@ if ($formdata) {
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
                                                                 <div class='esconder text-primary esconder-item'>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])=='false'?'d-none':'');?> material-symbols-outlined">
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'd-none' : ''); ?> material-symbols-outlined">
                                                                     visibility
                                                                   </span>
-                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])!='false'?'d-none':'');?> material-symbols-outlined">
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) != 'false' ? 'd-none' : ''); ?> material-symbols-outlined">
                                                                     visibility_off
                                                                   </span>
-                                                                  
+
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
                                                                 </div>
                                                               </div>
@@ -787,21 +787,24 @@ include('../../_layout/footer.php');
 <script>
   setInterval(() => {
     document.querySelectorAll("span").forEach(e => {
-      if (e.innerText == "visibility") {
-        e.addEventListener("click",()=>{
-          e.innerText = "visibility_off"
-          document.querySelector(".esconder-input").value = false
+      if (e.innerText == "visibility" || e.innerText == "visibility_off") {
+        e.addEventListener("click", () => {
+          if (e.innerText == "visibility") {
+            e.innerText = "visibility_off"
+            document.querySelector(".esconder-input").value = false
+          }
+          if (e.innerText == "visibility_off") {
+
+            e.innerText = "visibility"
+            document.querySelector(".esconder-input").value = true
+
+          }
         })
       }
 
-      if (e.innerText == "visibility_off") {
-        e.addEventListener("click",()=>{
-          e.innerText = "visibility"
-          document.querySelector(".esconder-input").value = true
-        })
-      }
 
-      
+
+
     })
   }, 1000)
   $(document).ready(function() {
