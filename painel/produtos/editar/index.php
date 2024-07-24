@@ -787,10 +787,8 @@ include('../../_layout/footer.php');
 
       e.onclick = () => {
         e.classList.toggle("text-danger")
-        if(e.parentElement.children[1].value==''){
-          e.parentElement.children[1].value = true
-        }
-        e.parentElement.children[1].value = !e.parentElement.children[1].value
+        
+        e.parentElement.children[1].value = e.classList.contains("text-danger")
         
         
       }
