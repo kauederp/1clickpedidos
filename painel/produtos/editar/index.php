@@ -785,7 +785,7 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  var togglehide = setInterval(() => {
+  setInterval(() => {
     document.querySelectorAll("span").forEach(e => {
       if (e.innerText == "visibility") {
         e.addEventListener("click",()=>{
@@ -803,8 +803,7 @@ include('../../_layout/footer.php');
 
       
     })
-  }, 2000)
-  setTimeout(()=>clearInterval(togglehide),1000*10)
+  }, 1000)
   $(document).ready(function() {
 
 
