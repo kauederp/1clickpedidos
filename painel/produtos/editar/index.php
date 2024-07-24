@@ -785,9 +785,7 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  
-  $(document).ready(function() {
-    setTimeout(() => {
+  var togglehide = setInterval(() => {
     document.querySelectorAll("span").forEach(e => {
       if (e.innerText == "visibility") {
         e.addEventListener("click",()=>{
@@ -795,6 +793,7 @@ include('../../_layout/footer.php');
           document.querySelector(".esconder-input").value = false
         })
       }
+
       if (e.innerText == "visibility_off") {
         e.addEventListener("click",()=>{
           e.innerText = "visibility"
@@ -804,8 +803,9 @@ include('../../_layout/footer.php');
 
       
     })
-    console.log("carregou")
-  }, 5000)
+  }, 2000)
+  setTimeout(()=>clearInterval(togglehide),1000*10)
+  $(document).ready(function() {
 
 
     // Globais
