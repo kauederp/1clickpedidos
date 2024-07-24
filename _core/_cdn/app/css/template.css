@@ -1771,7 +1771,8 @@ height: auto;
 
 .opcoes {
 	flex-wrap:wrap;
-	
+	display: flex;
+	flex-direction: row;
 }
 
 .comprar .line-variacao {
