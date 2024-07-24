@@ -27,6 +27,10 @@ include($virtualpath.'/_layout/top.php');
 include($virtualpath.'/_layout/sidebars.php');
 include($virtualpath.'/_layout/modal.php');
 instantrender();
+
+$variacao = json_decode( $data_content['variacao'], TRUE );
+print_r($variacao);
+die();
 ?>
 
 <div class="sceneElement">
