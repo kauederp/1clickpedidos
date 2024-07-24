@@ -806,15 +806,15 @@ include('../../_layout/footer.php');
       if (e.innerText == "visibility_off") {
         let eyeSlash = e.parentElement.children[1]
         let eye = e
-        eye.addEventListener("click", () => {
-          eye.classList.add("d-none")
-          document.querySelector(".esconder-input").value = "false"
+    eyeSlash.addEventListener("click", () => {
+          eyeSlash.classList.add("d-none")
+          document.querySelector(".esconder-input").value = "true"
 
-          eyeSlash.classList.remove("d-none")
-          eyeSlash.addEventListener("click", () => {
-            eyeSlash.classList.add("d-none")
-            eye.classList.remove("d-none")
-            document.querySelector(".esconder-input").value = "true"
+          eye.classList.remove("d-none")
+          eye.addEventListener("click", () => {
+            eye.classList.add("d-none")
+            eyeSlash.classList.remove("d-none")
+            document.querySelector(".esconder-input").value = "false"
           })
         })
       }
