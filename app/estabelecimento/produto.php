@@ -28,9 +28,9 @@ include($virtualpath.'/_layout/sidebars.php');
 include($virtualpath.'/_layout/modal.php');
 instantrender();
 
-$variacao = json_decode( $data_content['variacao'], TRUE );
+/* $variacao = json_decode( $data_content['variacao'], TRUE );
 print_r($variacao);
-die();
+die(); */
 ?>
 
 <div class="sceneElement">
@@ -327,7 +327,7 @@ die();
 															for( $y=0; $y < count( $variacao[$x]['item'] ); $y++ ){
 															?>
 
-															<div class="opcao <?php if( variacao_opcao_ativa( $data_content['id'],$x,$y ) ) { echo 'active'; }; echo $variacao[$x]['item'][$y]['esconder']=='true'?'d-none':'';?>" variacao-item="<?php echo $y; ?>" nomeda-variacao="<?php echo htmljson( $variacao[$x]['nome'] ) ;?>" valor-adicional="<?php echo htmljson( $variacao[$x]['item'][$y]['valor'] ); ?>">
+															<div class="opcao <?php if( variacao_opcao_ativa( $data_content['id'],$x,$y ) ) { echo 'active'; }; echo json_decode($variacao[$x]['item'][$y]['esconder'])=='true'?'d-none':'';?>" variacao-item="<?php echo $y; ?>" nomeda-variacao="<?php echo htmljson( $variacao[$x]['nome'] ) ;?>" valor-adicional="<?php echo htmljson( $variacao[$x]['item'][$y]['valor'] ); ?>">
 
 																<div class="check">
 																	<i class="lni"></i>
