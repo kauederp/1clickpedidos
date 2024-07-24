@@ -792,7 +792,7 @@ setInterval(() => {
     document.querySelectorAll("span").forEach(e => {
       if (e.innerText == "visibility" || e.innerText == "visibility_off") {
         let eyeSlash = e.parentElement.children[1]
-        let eye = e
+        let eye = e.parentElement.children[0]
         eye.addEventListener("click", () => {
           eye.classList.add("d-none")
           document.querySelector(".esconder-input").value = "false"
