@@ -817,10 +817,7 @@ var toggles = () => {
 
     })
   }
-
-  while(document.querySelectorAll("span.material-symbols-outlined").length==0){
-        setTimeout(()=>{toggles();},200)
-    }
+  setInterval(()=>{toggles();},200)
   $(document).ready(function() {
 
     
