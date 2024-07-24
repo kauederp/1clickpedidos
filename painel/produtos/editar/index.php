@@ -18,163 +18,155 @@ include('../../_layout/modal.php');
 
 <?php
 
-  // Globals
+// Globals
 
-  global $numeric_data;
-  global $gallery_max_files;
-  $eid = $_SESSION['estabelecimento']['id'];
-  $id = mysqli_real_escape_string( $db_con, $_GET['id'] );
-  $edit = mysqli_query( $db_con, "SELECT * FROM produtos WHERE id = '$id' AND rel_estabelecimentos_id = '$eid' LIMIT 1");
-  $hasdata = mysqli_num_rows( $edit );
-  $data = mysqli_fetch_array( $edit );
+global $numeric_data;
+global $gallery_max_files;
+$eid = $_SESSION['estabelecimento']['id'];
+$id = mysqli_real_escape_string($db_con, $_GET['id']);
+$edit = mysqli_query($db_con, "SELECT * FROM produtos WHERE id = '$id' AND rel_estabelecimentos_id = '$eid' LIMIT 1");
+$hasdata = mysqli_num_rows($edit);
+$data = mysqli_fetch_array($edit);
 
-  // Checar se formulário foi executado
+// Checar se formulário foi executado
 
-  $formdata = $_POST['formdata'];
+$formdata = $_POST['formdata'];
 
-  if( $formdata ) {
+if ($formdata) {
 
-    if(isset($_POST['pesofrete'])){
-        $pesofrete          = mysqli_real_escape_string( $db_con, $_POST['pesofrete'] );
-        if($pesofrete!=''){
-            $pesofrete = str_replace(',','.',$pesofrete);
-        }
-        $alturafrete        = mysqli_real_escape_string( $db_con, $_POST['alturafrete'] ); 
-        $largurafrete       = mysqli_real_escape_string( $db_con, $_POST['largurafrete'] ); 
-        $comprimentofrete = mysqli_real_escape_string( $db_con, $_POST['comprimentofrete'] ); 
-        $diametrofrete      = mysqli_real_escape_string( $db_con, $_POST['diametrofrete'] ); 
+  if (isset($_POST['pesofrete'])) {
+    $pesofrete          = mysqli_real_escape_string($db_con, $_POST['pesofrete']);
+    if ($pesofrete != '') {
+      $pesofrete = str_replace(',', '.', $pesofrete);
     }
-    // Setar campos
+    $alturafrete        = mysqli_real_escape_string($db_con, $_POST['alturafrete']);
+    $largurafrete       = mysqli_real_escape_string($db_con, $_POST['largurafrete']);
+    $comprimentofrete = mysqli_real_escape_string($db_con, $_POST['comprimentofrete']);
+    $diametrofrete      = mysqli_real_escape_string($db_con, $_POST['diametrofrete']);
+  }
+  // Setar campos
 
-    $categoria = mysqli_real_escape_string( $db_con, $_POST['categoria'] );
-    $ref = mysqli_real_escape_string( $db_con, $_POST['ref'] );
-    $nome = mysqli_real_escape_string( $db_con, $_POST['nome'] );
-    $video_link = mysqli_real_escape_string( $db_con, $_POST['video_link'] );
-    $descricao = mysqli_real_escape_string( $db_con, $_POST['descricao'] );
-    $estoque = mysqli_real_escape_string( $db_con, $_POST['estoque'] );
-    $posicao = mysqli_real_escape_string( $db_con, $_POST['posicao'] );
-    $valor = dinheiro( mysqli_real_escape_string( $db_con, $_POST['valor'] ) );
-    if( !$valor ) {
-      $valor = "0.00";
+  $categoria = mysqli_real_escape_string($db_con, $_POST['categoria']);
+  $ref = mysqli_real_escape_string($db_con, $_POST['ref']);
+  $nome = mysqli_real_escape_string($db_con, $_POST['nome']);
+  $video_link = mysqli_real_escape_string($db_con, $_POST['video_link']);
+  $descricao = mysqli_real_escape_string($db_con, $_POST['descricao']);
+  $estoque = mysqli_real_escape_string($db_con, $_POST['estoque']);
+  $posicao = mysqli_real_escape_string($db_con, $_POST['posicao']);
+  $valor = dinheiro(mysqli_real_escape_string($db_con, $_POST['valor']));
+  if (!$valor) {
+    $valor = "0.00";
+  }
+  $oferta = mysqli_real_escape_string($db_con, $_POST['oferta']);
+  $valor_promocional = dinheiro(mysqli_real_escape_string($db_con, $_POST['valor_promocional']));
+  if (!$valor_promocional) {
+    $valor_promocional = "0.00";
+  }
+
+  $variacao =  $_POST['variacao'];
+  for ($x = 0; $x < count($variacao); $x++) {
+    $variacao[$x]['nome'] = jsonsave($variacao[$x]['nome']);
+    $variacao[$x]['escolha_minima'] = jsonsave($variacao[$x]['escolha_minima']);
+    $variacao[$x]['escolha_maxima'] = jsonsave($variacao[$x]['escolha_maxima']);
+    for ($y = 0; $y < count($variacao[$x]['item']); $y++) {
+      $variacao[$x]['item'][$y]['nome'] =  jsonsave($variacao[$x]['item'][$y]['nome']);
+      $variacao[$x]['item'][$y]['descricao'] =  jsonsave($variacao[$x]['item'][$y]['descricao']);
+      $variacao[$x]['item'][$y]['valor'] = jsonsave(dinheiro(mysqli_real_escape_string($db_con, $variacao[$x]['item'][$y]['valor'])));
     }
-    $oferta = mysqli_real_escape_string( $db_con, $_POST['oferta'] );
-    $valor_promocional = dinheiro( mysqli_real_escape_string( $db_con, $_POST['valor_promocional'] ) );
-    if( !$valor_promocional ) {
-      $valor_promocional = "0.00";
-    }
-    
-    $variacao =  $_POST['variacao'];
-    for ( $x=0; $x < count( $variacao ); $x++ ){
-      $variacao[$x]['nome'] = jsonsave( $variacao[$x]['nome'] );
-      $variacao[$x]['escolha_minima'] = jsonsave( $variacao[$x]['escolha_minima'] );
-      $variacao[$x]['escolha_maxima'] = jsonsave( $variacao[$x]['escolha_maxima'] );
-      for( $y=0; $y < count( $variacao[$x]['item'] ); $y++ ){
-        $variacao[$x]['item'][$y]['nome'] =  jsonsave( $variacao[$x]['item'][$y]['nome'] );
-        $variacao[$x]['item'][$y]['descricao'] =  jsonsave( $variacao[$x]['item'][$y]['descricao'] );
-        $variacao[$x]['item'][$y]['valor'] = jsonsave( dinheiro( mysqli_real_escape_string( $db_con,$variacao[$x]['item'][$y]['valor'] ) ) );
+  }
+  $variacao = json_encode($variacao, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+  $visible = mysqli_real_escape_string($db_con, $_POST['visible']);
+  $integrado = mysqli_real_escape_string($db_con, $_POST['integrado']);
+  $status = mysqli_real_escape_string($db_con, $_POST['status']);
+
+  // Checar Erros
+
+  $checkerrors = 0;
+  $errormessage = array();
+
+  if ($_FILES['destaque']['name']) {
+
+    $upload = upload_image($eid, $_FILES['destaque']);
+
+    if ($upload['status'] == "1") {
+      $destaque = $upload['url'];
+    } else {
+      $checkerrors++;
+      for ($x = 0; $x < count($upload['errors']); $x++) {
+        $errormessage[] = $upload['errors'][$x];
       }
     }
-    $variacao = json_encode( $variacao, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+  }
 
-    $visible = mysqli_real_escape_string( $db_con, $_POST['visible'] );
-    $integrado = mysqli_real_escape_string( $db_con, $_POST['integrado'] );
-    $status = mysqli_real_escape_string( $db_con, $_POST['status'] );
+  // -- Estabelecimento
 
-    // Checar Erros
+  if (!$eid) {
+    $checkerrors++;
+    $errormessage[] = "O estabelecimento não pode ser nulo";
+  }
 
-    $checkerrors = 0;
-    $errormessage = array();
+  // -- Nome
 
-      if( $_FILES['destaque']['name'] ) {
+  if (!$nome) {
+    $checkerrors++;
+    $errormessage[] = "O nome não pode ser nulo";
+  }
 
-        $upload = upload_image( $eid, $_FILES['destaque'] );
-        
-        if ( $upload['status'] == "1" ) {
-          $destaque = $upload['url'];
-        } else {
-          $checkerrors++;
-          for( $x=0; $x < count( $upload['errors'] ); $x++ ) {
-            $errormessage[] = $upload['errors'][$x];
+  // -- Nome
+
+  if (!$estoque) {
+    $checkerrors++;
+    $errormessage[] = "Este produto controla estoque?";
+  }
+
+  // -- Valor
+
+  //if( !$valor ) {
+  //  $checkerrors++;
+  //  $errormessage[] = "O valor não pode ser nulo";
+  //}
+
+  // -- Estabelecimento
+
+  if ($data['rel_estabelecimentos_id'] != $eid) {
+    $checkerrors++;
+    $errormessage[] = "Ação inválida";
+  }
+
+  // Executar registro
+
+  if (!$checkerrors) {
+
+    if (edit_produto($id, $eid, $categoria, $destaque, $estoque, $posicao, $ref, $nome, $video_link, $descricao, $valor, $oferta, $valor_promocional, $variacao, $status, $visible, $integrado, $pesofrete, $alturafrete, $largurafrete, $comprimentofrete, $diametrofrete)) {
+
+      if ($_FILES['file']) {
+
+        for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
+
+          $file_name = $_FILES['file']['name'][$i];
+          $file_size = $_FILES['file']['size'][$i];
+          $file_tmp = $_FILES['file']['tmp_name'][$i];
+          $file_type = $_FILES['file']['type'][$i];
+          $upload = upload_image_direct($id, $file_name, $file_size, $file_tmp, $file_type);
+
+          if ($upload['status'] == "1") {
+
+            $url = $upload['url'];
+
+            mysqli_query($db_con, "INSERT INTO midia (type,rel_estabelecimentos_id,rel_id,url) VALUES ('1','$estabelecimento','$id','$url')");
           }
         }
-
       }
 
-      // -- Estabelecimento
+      header("Location: index.php?msg=sucesso&id=" . $id);
+    } else {
 
-      if( !$eid ) {
-        $checkerrors++;
-        $errormessage[] = "O estabelecimento não pode ser nulo";
-      }
-
-      // -- Nome
-
-      if( !$nome ) {
-        $checkerrors++;
-        $errormessage[] = "O nome não pode ser nulo";
-      }
-      
-      // -- Nome
-
-      if( !$estoque ) {
-        $checkerrors++;
-        $errormessage[] = "Este produto controla estoque?";
-      }
-
-      // -- Valor
-
-      //if( !$valor ) {
-      //  $checkerrors++;
-      //  $errormessage[] = "O valor não pode ser nulo";
-      //}
-
-      // -- Estabelecimento
-
-      if( $data['rel_estabelecimentos_id'] != $eid ) {
-        $checkerrors++;
-        $errormessage[] = "Ação inválida";
-      }
-
-    // Executar registro
-
-    if( !$checkerrors ) {
-
-      if( edit_produto( $id,$eid,$categoria,$destaque,$estoque,$posicao,$ref,$nome,$video_link,$descricao,$valor,$oferta,$valor_promocional,$variacao,$status,$visible,$integrado,$pesofrete,$alturafrete,$largurafrete,$comprimentofrete,$diametrofrete ) ) {
-
-        if ( $_FILES['file'] ) {
-
-            for ($i = 0; $i < count( $_FILES['file']['name'] ); $i++) {
-
-                $file_name = $_FILES['file']['name'][$i];
-                $file_size = $_FILES['file']['size'][$i];
-                $file_tmp = $_FILES['file']['tmp_name'][$i];
-                $file_type = $_FILES['file']['type'][$i];
-                $upload = upload_image_direct( $id,$file_name,$file_size,$file_tmp,$file_type );
-
-                if ( $upload['status'] == "1" ) {
-                
-                  $url = $upload['url'];
-
-                  mysqli_query( $db_con, "INSERT INTO midia (type,rel_estabelecimentos_id,rel_id,url) VALUES ('1','$estabelecimento','$id','$url')");
-
-                }
-             
-            }
-
-        }
-
-        header("Location: index.php?msg=sucesso&id=".$id);
-
-      } else {
-
-        header("Location: index.php?msg=erro&id=".$id);
-
-      }
-
+      header("Location: index.php?msg=erro&id=" . $id);
     }
-
   }
-  
+}
+
 ?>
 
 <div class="middle minfit bg-gray">
@@ -199,7 +191,7 @@ include('../../_layout/modal.php');
             <a href="<?php panel_url(); ?>/produtos/editar?id=<?php echo $id; ?>">Editar</a>
           </div>
         </div>
-        
+
       </div>
 
     </div>
@@ -208,25 +200,27 @@ include('../../_layout/modal.php');
 
     <div class="data box-white mt-16">
 
-      <?php if( $hasdata ) { ?>
+      <?php if ($hasdata) { ?>
 
-      <form id="the_form" class="form-default" method="POST" enctype="multipart/form-data">
+        <form id="the_form" class="form-default" method="POST" enctype="multipart/form-data">
 
           <div class="row">
 
             <div class="col-md-12">
 
-              <?php if( $checkerrors ) { list_errors(); } ?>
+              <?php if ($checkerrors) {
+                list_errors();
+              } ?>
 
-              <?php if( $_GET['msg'] == "erro" ) { ?>
+              <?php if ($_GET['msg'] == "erro") { ?>
 
-                <?php modal_alerta("Erro, tente novamente!","erro"); ?>
+                <?php modal_alerta("Erro, tente novamente!", "erro"); ?>
 
               <?php } ?>
 
-              <?php if( $_GET['msg'] == "sucesso" ) { ?>
+              <?php if ($_GET['msg'] == "sucesso") { ?>
 
-                <?php modal_alerta("Editado com sucesso!","sucesso"); ?>
+                <?php modal_alerta("Editado com sucesso!", "sucesso"); ?>
 
               <?php } ?>
 
@@ -240,63 +234,71 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-               <label>Categoria:</label>
-                  <div class="fake-select">
-                    <i class="lni lni-chevron-down"></i>
-                    <select id="input-categoria" name="categoria">
+                <label>Categoria:</label>
+                <div class="fake-select">
+                  <i class="lni lni-chevron-down"></i>
+                  <select id="input-categoria" name="categoria">
 
-                      <option value=""></option>
-                      <?php 
-                      $quicksql = mysqli_query( $db_con, "SELECT * FROM categorias WHERE rel_estabelecimentos_id = '$eid' ORDER BY nome ASC LIMIT 999" );
-                      while( $quickdata = mysqli_fetch_array( $quicksql ) ) {
-                      ?>
+                    <option value=""></option>
+                    <?php
+                    $quicksql = mysqli_query($db_con, "SELECT * FROM categorias WHERE rel_estabelecimentos_id = '$eid' ORDER BY nome ASC LIMIT 999");
+                    while ($quickdata = mysqli_fetch_array($quicksql)) {
+                    ?>
 
-                      <option <?php if( $data['rel_categorias_id'] == $quickdata['id'] ) { echo "SELECTED"; }; ?> value="<?php echo $quickdata['id']; ?>"><?php echo $quickdata['nome']; ?></option>
+                      <option <?php if ($data['rel_categorias_id'] == $quickdata['id']) {
+                                echo "SELECTED";
+                              }; ?> value="<?php echo $quickdata['id']; ?>"><?php echo $quickdata['nome']; ?></option>
 
-                      <?php } ?>
+                    <?php } ?>
 
-                    </select>
-                    <div class="clear"></div>
-                  </div>
+                  </select>
+                  <div class="clear"></div>
+                </div>
               </div>
 
             </div>
-            
+
             <div class="col-md-4">
               <div class="form-field-default">
-               <label>Controla Estoque:</label>
-                  <div class="fake-select">
-                    <i class="lni lni-chevron-down"></i>
-                    <select id="input-categoria" name="estoque">
-                        
-                      <?php
-                      if($data['estoque'] == 1) { $idest = "1"; $nomeest = "Não";}
-                      if($data['estoque'] == 2) { $idest = "2"; $nomeest = "Sim";}
-                      ?>
-                        
-                      <option value="<?php print $idest;?>"><?php print $nomeest;?></option>
-                      <option></option> 
-                      <option value="2">Sim</option>  
-                      <option value="1">Não</option>
-					  
-                    </select>
-                    <div class="clear"></div>
-                  </div>
+                <label>Controla Estoque:</label>
+                <div class="fake-select">
+                  <i class="lni lni-chevron-down"></i>
+                  <select id="input-categoria" name="estoque">
+
+                    <?php
+                    if ($data['estoque'] == 1) {
+                      $idest = "1";
+                      $nomeest = "Não";
+                    }
+                    if ($data['estoque'] == 2) {
+                      $idest = "2";
+                      $nomeest = "Sim";
+                    }
+                    ?>
+
+                    <option value="<?php print $idest; ?>"><?php print $nomeest; ?></option>
+                    <option></option>
+                    <option value="2">Sim</option>
+                    <option value="1">Não</option>
+
+                  </select>
+                  <div class="clear"></div>
+                </div>
               </div>
             </div>
-			
-			<div class="col-md-4">
+
+            <div class="col-md-4">
               <div class="form-field-default">
-               <label>Quantidade Estoque:</label>
-                    <input type="text" name="posicao" value="<?php echo htmlclean( $data['posicao'] ); ?>">
+                <label>Quantidade Estoque:</label>
+                <input type="text" name="posicao" value="<?php echo htmlclean($data['posicao']); ?>">
               </div>
             </div>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
 
           </div>
 
@@ -306,9 +308,9 @@ include('../../_layout/modal.php');
               <label>Foto destaque:</label>
               <div class="file-preview">
 
-                <div class="image-preview image-preview-product" id="image-preview" style='background: url("<?php echo imager( $data['destaque'] ); ?>") no-repeat center center; background-size: auto 102%;'>
+                <div class="image-preview image-preview-product" id="image-preview" style='background: url("<?php echo imager($data['destaque']); ?>") no-repeat center center; background-size: auto 102%;'>
                   <label for="image-upload" id="image-label">Clique ou arraste</label>
-                  <input type="file" name="destaque" id="image-upload"/>
+                  <input type="file" name="destaque" id="image-upload" />
                 </div>
                 <span class="explain">Selecione a foto destaque clicando no campo ou arrastando o arquivo!</span>
 
@@ -342,9 +344,9 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>REF:</label>
-                  <span class="form-tip">Código para identificar o seu produto no seu estoque, caso deixe em branco, será definido automaticamente.</span>
-                  <input type="text" name="ref" placeholder="REF" value="<?php echo htmlclean( $data['ref'] ); ?>">
+                <label>REF:</label>
+                <span class="form-tip">Código para identificar o seu produto no seu estoque, caso deixe em branco, será definido automaticamente.</span>
+                <input type="text" name="ref" placeholder="REF" value="<?php echo htmlclean($data['ref']); ?>">
 
               </div>
 
@@ -358,8 +360,8 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>ID do vídeo destaque:</label>
-                  <input type="text" name="video_link" placeholder="ID do vídeo" value="<?php echo htmlclean( $data['video_link'] ); ?>">
+                <label>ID do vídeo destaque:</label>
+                <input type="text" name="video_link" placeholder="ID do vídeo" value="<?php echo htmlclean($data['video_link']); ?>">
 
               </div>
 
@@ -373,8 +375,8 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>Nome:</label>
-                  <input type="text" id="input-nome" name="nome" placeholder="Nome" value="<?php echo htmlclean( $data['nome'] ); ?>">
+                <label>Nome:</label>
+                <input type="text" id="input-nome" name="nome" placeholder="Nome" value="<?php echo htmlclean($data['nome']); ?>">
 
               </div>
 
@@ -388,8 +390,8 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>Descrição:</label>
-                  <textarea rows="6" name="descricao" placeholder="Descrição do seu produto"><?php echo htmlclean( $data['descricao'] ); ?></textarea>
+                <label>Descrição:</label>
+                <textarea rows="6" name="descricao" placeholder="Descrição do seu produto"><?php echo htmlclean($data['descricao']); ?></textarea>
 
               </div>
 
@@ -403,8 +405,8 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>Valor:</label>
-                  <input class="maskmoney" type="text" name="valor" placeholder="Valor" value="<?php echo htmlclean( dinheiro( $data['valor'], "BR") ); ?>">
+                <label>Valor:</label>
+                <input class="maskmoney" type="text" name="valor" placeholder="Valor" value="<?php echo htmlclean(dinheiro($data['valor'], "BR")); ?>">
 
               </div>
 
@@ -418,14 +420,18 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>Este produto está em oferta?</label>
-                  <div class="form-field-radio">
-                    <input type="radio" name="oferta" value="1" element-show=".elemento-promocional" <?php if( $data['oferta'] == 1 ){ echo 'CHECKED'; }; ?>> Sim
-                  </div>
-                  <div class="form-field-radio">
-                    <input type="radio" name="oferta" value="2" element-hide=".elemento-promocional" <?php if( $data['oferta'] == 2 OR !$data['oferta']  ){ echo 'CHECKED'; }; ?>> Não
-                  </div>
-                  <div class="clear"></div>
+                <label>Este produto está em oferta?</label>
+                <div class="form-field-radio">
+                  <input type="radio" name="oferta" value="1" element-show=".elemento-promocional" <?php if ($data['oferta'] == 1) {
+                                                                                                      echo 'CHECKED';
+                                                                                                    }; ?>> Sim
+                </div>
+                <div class="form-field-radio">
+                  <input type="radio" name="oferta" value="2" element-hide=".elemento-promocional" <?php if ($data['oferta'] == 2 or !$data['oferta']) {
+                                                                                                      echo 'CHECKED';
+                                                                                                    }; ?>> Não
+                </div>
+                <div class="clear"></div>
 
               </div>
 
@@ -433,14 +439,16 @@ include('../../_layout/modal.php');
 
           </div>
 
-          <div class="row elemento-promocional <?php if( $data['oferta'] == "2" ){ echo 'elemento-oculto'; } ?>">
+          <div class="row elemento-promocional <?php if ($data['oferta'] == "2") {
+                                                  echo 'elemento-oculto';
+                                                } ?>">
 
             <div class="col-md-12">
 
               <div class="form-field-default">
 
-                  <label>Valor promocional:</label>
-                  <input class="maskmoney" type="text" name="valor_promocional" placeholder="Valor promocional" value="<?php echo htmlclean( dinheiro( $data['valor_promocional'], "BR") ); ?>">
+                <label>Valor promocional:</label>
+                <input class="maskmoney" type="text" name="valor_promocional" placeholder="Valor promocional" value="<?php echo htmlclean(dinheiro($data['valor_promocional'], "BR")); ?>">
 
               </div>
 
@@ -463,21 +471,23 @@ include('../../_layout/modal.php');
                       </a>
                     </h4>
                   </div>
-                  <div id="collapse-variacao" class="panel-collapse collapse <?php if( $_SESSION['estabelecimento']['funcionalidade_variacao'] == "1" ) { echo "in"; } ?>">
+                  <div id="collapse-variacao" class="panel-collapse collapse <?php if ($_SESSION['estabelecimento']['funcionalidade_variacao'] == "1") {
+                                                                                echo "in";
+                                                                              } ?>">
                     <div class="panel-body">
 
-                      <?php if( $_SESSION['estabelecimento']['funcionalidade_variacao'] == "1" ) { ?>
-                      
+                      <?php if ($_SESSION['estabelecimento']['funcionalidade_variacao'] == "1") { ?>
+
                         <!-- Variações -->
 
                         <div class="variacoes">
                           <div class="row">
                             <div class="col-md-12">
                               <div class="render-variacoes">
-                                
+
                                 <?php
-                                $variacao = json_decode( $data['variacao'], TRUE );
-                                for ( $x=0; $x < count( $variacao ); $x++ ){
+                                $variacao = json_decode($data['variacao'], TRUE);
+                                for ($x = 0; $x < count($variacao); $x++) {
                                 ?>
 
                                   <div class="panel-group panel-filters panel-subvariacao">
@@ -490,7 +500,7 @@ include('../../_layout/modal.php');
                                                 <i class="menos lni lni-minus"></i>
                                               </div>
                                               <div class="col-md-8 col-sm-8 col-xs-6">
-                                                <span class="variacao-desc"><?php echo htmljson( $variacao[$x]['nome'] ); ?></span>
+                                                <span class="variacao-desc"><?php echo htmljson($variacao[$x]['nome']); ?></span>
                                               </div>
                                               <div class="col-md-2 col-sm-2 col-xs-3">
                                                 <i class="deletar deletar-variacao lni lni-trash"></i>
@@ -506,20 +516,20 @@ include('../../_layout/modal.php');
                                               <div class='row'>
                                                 <div class='col col-md-6 col-sm-12 col-xs-12'>
                                                   <div class='form-field-default'>
-                                                      <label>Nome da variação:</label>
-                                                      <input class='variacao-nome' type='text' name='variacao[<?php echo $x; ?>][nome]' placeholder='Nome' value="<?php echo htmljson( $variacao[$x]['nome'] ); ?>"/>
+                                                    <label>Nome da variação:</label>
+                                                    <input class='variacao-nome' type='text' name='variacao[<?php echo $x; ?>][nome]' placeholder='Nome' value="<?php echo htmljson($variacao[$x]['nome']); ?>" />
                                                   </div>
                                                 </div>
                                                 <div class='col col-md-3 col-sm-6 col-xs-6'>
                                                   <div class='form-field-default'>
-                                                      <label>Escolha minima:</label>
-                                                      <input class='variacao-escolha-minima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_minima]' min='0' value='<?php echo htmljson( $variacao[$x]['escolha_minima'] ); ?>'/>
+                                                    <label>Escolha minima:</label>
+                                                    <input class='variacao-escolha-minima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_minima]' min='0' value='<?php echo htmljson($variacao[$x]['escolha_minima']); ?>' />
                                                   </div>
                                                 </div>
                                                 <div class='col col-md-3 col-sm-6 col-xs-6'>
                                                   <div class='form-field-default'>
-                                                      <label>Escolha máxima:</label>
-                                                      <input class='variacao-escolha-maxima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_maxima]' min='1' value='<?php echo htmljson( $variacao[$x]['escolha_maxima'] ); ?>'/>
+                                                    <label>Escolha máxima:</label>
+                                                    <input class='variacao-escolha-maxima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_maxima]' min='1' value='<?php echo htmljson($variacao[$x]['escolha_maxima']); ?>' />
                                                   </div>
                                                 </div>
                                               </div>
@@ -530,17 +540,17 @@ include('../../_layout/modal.php');
                                                   <div class='render-itens'>
 
                                                     <?php
-                                                    for( $y=0; $y < count( $variacao[$x]['item'] ); $y++ ){
+                                                    for ($y = 0; $y < count($variacao[$x]['item']); $y++) {
                                                     ?>
 
-                                                    <div class='col-md-4 col-item' variacao-id='<?php echo $x; ?>' item-id='<?php echo $y; ?>'>
-                                                      <div class='item'>
+                                                      <div class='col-md-4 col-item' variacao-id='<?php echo $x; ?>' item-id='<?php echo $y; ?>'>
+                                                        <div class='item'>
                                                           <div class='title'>
                                                             <div class='row'>
                                                               <div class='col col-md-10 col-sm-10 col-xs-10'>
                                                                 <div class='form-field-default'>
-                                                                    <label>Nome:</label>
-                                                                    <input class='item-nome' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][nome]' placeholder='Nome' value="<?php echo htmljson( $variacao[$x]['item'][$y]['nome'] ); ?>"/>
+                                                                  <label>Nome:</label>
+                                                                  <input class='item-nome' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][nome]' placeholder='Nome' value="<?php echo htmljson($variacao[$x]['item'][$y]['nome']); ?>" />
                                                                 </div>
                                                               </div>
                                                               <div class='col col-md-2 col-sm-2 col-xs-2'>
@@ -549,7 +559,9 @@ include('../../_layout/modal.php');
                                                                 </div>
                                                                 <div class='esconder esconder-item'>
                                                                   <i class='lni lni-eye'></i>
-                                                                  <i class='lni lni-eye-slash'></i>
+                                                                  <span class="material-symbols-outlined">
+                                                                    visibility_off
+                                                                  </span>
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -558,20 +570,20 @@ include('../../_layout/modal.php');
                                                             <div class='row'>
                                                               <div class='col col-md-12'>
                                                                 <div class='form-field-default'>
-                                                                    <label>Descrição:</label>
-                                                                    <textarea rows='1' class='item-descricao' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][descricao]' placeholder='Descrição'><?php echo htmljson( $variacao[$x]['item'][$y]['descricao'] ); ?></textarea>
+                                                                  <label>Descrição:</label>
+                                                                  <textarea rows='1' class='item-descricao' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][descricao]' placeholder='Descrição'><?php echo htmljson($variacao[$x]['item'][$y]['descricao']); ?></textarea>
                                                                 </div>
                                                               </div>
                                                               <div class='col col-md-12'>
                                                                 <div class='form-field-default'>
-                                                                    <label>Valor adicional:</label>
-                                                                    <input class='item-valor maskmoney' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][valor]' placeholder='Valor' value="<?php echo dinheiro( htmljson( $variacao[$x]['item'][$y]['valor'] ), "BR" ); ?>"/>
+                                                                  <label>Valor adicional:</label>
+                                                                  <input class='item-valor maskmoney' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][valor]' placeholder='Valor' value="<?php echo dinheiro(htmljson($variacao[$x]['item'][$y]['valor']), "BR"); ?>" />
                                                                 </div>
                                                               </div>
                                                             </div>
                                                           </div>
+                                                        </div>
                                                       </div>
-                                                    </div>
 
                                                     <?php } ?>
 
@@ -631,31 +643,6 @@ include('../../_layout/modal.php');
                     </div>
                   </div>
                 </div>
-              </div> 
-
-            </div>
-
-          </div>
-
-          <div class="row">
-
-            <div class="col-md-12">
-
-              <div class="form-field-default">
-
-                  <label>Produto visível?</label>
-                  <span class="form-tip">Se habilitado o produto irá aparecer em todo site, caso contrário, irá aparecer apenas para quem você compartilhar o link.</span>
-                  <div class="radios">
-                    <div class="spacer"></div>
-                    <div class="form-field-radio">
-                      <input type="radio" name="visible" value="1" <?php if( $data['visible'] == 1 OR !$data['visible'] ){ echo 'CHECKED'; }; ?>> Sim
-                    </div>
-                    <div class="form-field-radio">
-                      <input type="radio" name="visible" value="2" <?php if( $data['visible'] == 2 ){ echo 'CHECKED'; }; ?>> Não
-                    </div>
-                    <div class="clear"></div>
-                  </div>
-
               </div>
 
             </div>
@@ -668,15 +655,22 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>Produto ativo?</label>
-                  <span class="form-tip">Marque não caso queira desabilitar o produto sem a necessidade de exclui-lo.</span>
+                <label>Produto visível?</label>
+                <span class="form-tip">Se habilitado o produto irá aparecer em todo site, caso contrário, irá aparecer apenas para quem você compartilhar o link.</span>
+                <div class="radios">
+                  <div class="spacer"></div>
                   <div class="form-field-radio">
-                    <input type="radio" name="status" value="1" <?php if( $data['status'] == 1 OR !$data['status'] ){ echo 'CHECKED'; }; ?>> Sim
+                    <input type="radio" name="visible" value="1" <?php if ($data['visible'] == 1 or !$data['visible']) {
+                                                                    echo 'CHECKED';
+                                                                  }; ?>> Sim
                   </div>
                   <div class="form-field-radio">
-                    <input type="radio" name="status" value="2" <?php if( $data['status'] == 2 ){ echo 'CHECKED'; }; ?>> Não
+                    <input type="radio" name="visible" value="2" <?php if ($data['visible'] == 2) {
+                                                                    echo 'CHECKED';
+                                                                  }; ?>> Não
                   </div>
                   <div class="clear"></div>
+                </div>
 
               </div>
 
@@ -690,18 +684,48 @@ include('../../_layout/modal.php');
 
               <div class="form-field-default">
 
-                  <label>Produto integrado?</label>
-                  <span class="form-tip">Se habilitado o produto irá aparecer nas sacolinhas do instagram / facebook.</span>
-                  <div class="radios">
-                    <div class="spacer"></div>
-                    <div class="form-field-radio">
-                      <input type="radio" name="integrado" value="1" <?php if( $data['integrado'] == 1 OR !$data['integrado'] ){ echo 'CHECKED'; }; ?>> Sim
-                    </div>
-                    <div class="form-field-radio">
-                      <input type="radio" name="integrado" value="2" <?php if( $data['integrado'] == 2 ){ echo 'CHECKED'; }; ?>> Não
-                    </div>
-                    <div class="clear"></div>
+                <label>Produto ativo?</label>
+                <span class="form-tip">Marque não caso queira desabilitar o produto sem a necessidade de exclui-lo.</span>
+                <div class="form-field-radio">
+                  <input type="radio" name="status" value="1" <?php if ($data['status'] == 1 or !$data['status']) {
+                                                                echo 'CHECKED';
+                                                              }; ?>> Sim
+                </div>
+                <div class="form-field-radio">
+                  <input type="radio" name="status" value="2" <?php if ($data['status'] == 2) {
+                                                                echo 'CHECKED';
+                                                              }; ?>> Não
+                </div>
+                <div class="clear"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-12">
+
+              <div class="form-field-default">
+
+                <label>Produto integrado?</label>
+                <span class="form-tip">Se habilitado o produto irá aparecer nas sacolinhas do instagram / facebook.</span>
+                <div class="radios">
+                  <div class="spacer"></div>
+                  <div class="form-field-radio">
+                    <input type="radio" name="integrado" value="1" <?php if ($data['integrado'] == 1 or !$data['integrado']) {
+                                                                      echo 'CHECKED';
+                                                                    }; ?>> Sim
                   </div>
+                  <div class="form-field-radio">
+                    <input type="radio" name="integrado" value="2" <?php if ($data['integrado'] == 2) {
+                                                                      echo 'CHECKED';
+                                                                    }; ?>> Não
+                  </div>
+                  <div class="clear"></div>
+                </div>
 
               </div>
 
@@ -720,7 +744,7 @@ include('../../_layout/modal.php');
             </div>
 
             <div class="col-md-6 col-sm-7 col-xs-7">
-              <input type="hidden" name="formdata" value="true"/>
+              <input type="hidden" name="formdata" value="true" />
               <div class="form-field form-field-submit">
                 <button class="pull-right">
                   <span>Salvar <i class="lni lni-chevron-right"></i></span>
@@ -730,7 +754,7 @@ include('../../_layout/modal.php');
 
           </div>
 
-      </form>
+        </form>
 
       <?php } else { ?>
 
@@ -748,7 +772,7 @@ include('../../_layout/modal.php');
 
 <div class="just-ajax"></div>
 
-<?php 
+<?php
 // FOOTER
 $system_footer .= "";
 include('../../_layout/rdp.php');
@@ -756,34 +780,33 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
+  $(document).ready(function() {
 
-$(document).ready( function() {
-          
-  // Globais
+    // Globais
 
-  $("#the_form").validate({
+    $("#the_form").validate({
 
       /* REGRAS DE VALIDAÇÃO DO FORMULÁRIO */
 
-      rules:{
+      rules: {
 
-        estabelecimento_id:{
-        required: true
+        estabelecimento_id: {
+          required: true
         },
-        nome:{
-        required: true
+        nome: {
+          required: true
         }
 
       },
-          
-      /* DEFINIÇÃO DAS MENSAGENS DE ERRO */
-              
-      messages:{
 
-        estabelecimento_id:{
+      /* DEFINIÇÃO DAS MENSAGENS DE ERRO */
+
+      messages: {
+
+        estabelecimento_id: {
           required: "Esse campo é obrigatório"
         },
-        nome:{
+        nome: {
           required: "Esse campo é obrigatório"
         }
       }
@@ -791,125 +814,128 @@ $(document).ready( function() {
     });
 
   });
-
 </script>
 
 <script>
+  $(document).ready(function() {
 
-$( document ).ready(function() {
-
-  $( "input[name=estabelecimento_id]" ).change(function() {
+    $("input[name=estabelecimento_id]").change(function() {
       var estabelecimento = $(this).val();
       $("#input-categoria").html("<option>-- Carregando categorias --</option>");
-      $("#input-categoria").load("<?php just_url(); ?>/_core/_ajax/categorias.php?categoria=<?php echo $data['rel_categorias_id']; ?>&estabelecimento="+estabelecimento);
+      $("#input-categoria").load("<?php just_url(); ?>/_core/_ajax/categorias.php?categoria=<?php echo $data['rel_categorias_id']; ?>&estabelecimento=" + estabelecimento);
+    });
+
+    $("input[name=estabelecimento_id]").trigger("change");
+
   });
-
-  $( "input[name=estabelecimento_id]" ).trigger("change");
-
-});
-
 </script>
 
 <script>
+  var themaxfiles = <?php echo $gallery_max_files; ?>;
 
-var themaxfiles = <?php echo $gallery_max_files; ?>;
+  function watchadd() {
 
-function watchadd() {
+    $('.add-gallery-button').remove();
+    var thetotal = $('.uploaded-image').size();
+    if (thetotal < themaxfiles) {
+      $('.field-gallery .uploaded').append("<div class='add-gallery-button' title='Adicionar imagem'></div>");
+    }
 
-  $('.add-gallery-button').remove();
-  var thetotal = $('.uploaded-image').size();
-  if( thetotal < themaxfiles ) {
-    $('.field-gallery .uploaded').append("<div class='add-gallery-button' title='Adicionar imagem'></div>");
   }
 
-}
+  function kill_image(fileid) {
 
-function kill_image(fileid) {
-
-    $(".just-ajax").load("<?php just_url(); ?>/_core/_ajax/delete_image.php?token=<?php echo user_token_generate( $_SESSION['user']['id'] ); ?>&fileid="+fileid);
+    $(".just-ajax").load("<?php just_url(); ?>/_core/_ajax/delete_image.php?token=<?php echo user_token_generate($_SESSION['user']['id']); ?>&fileid=" + fileid);
 
     watchadd();
 
-}
-
+  }
 </script>
 
 <script type="text/javascript" src="src/image-uploader.js"></script>
 
 <script>
-    $(function () {
+  $(function() {
 
-        let preloaded = [
-          <?php 
-          $quicksql = mysqli_query( $db_con, "SELECT * FROM midia WHERE rel_id = '$id' AND type = '1' ORDER BY id ASC LIMIT 999" );
-          while( $quickdata = mysqli_fetch_array( $quicksql ) ) {
-          ?>
-          {id: <?php echo $quickdata['id']; ?>, src: '<?php echo thumber( $quickdata['url'], 200 ); ?>'},
-          <?php } ?>
-        ];
+    let preloaded = [
+      <?php
+      $quicksql = mysqli_query($db_con, "SELECT * FROM midia WHERE rel_id = '$id' AND type = '1' ORDER BY id ASC LIMIT 999");
+      while ($quickdata = mysqli_fetch_array($quicksql)) {
+      ?> {
+          id: <?php echo $quickdata['id']; ?>,
+          src: '<?php echo thumber($quickdata['url'], 200); ?>'
+        },
+      <?php } ?>
+    ];
 
-        $('.input-gallery').imageUploader({
-            preloaded: preloaded,
-            imagesInputName: 'file',
-            preloadedInputName: 'old',
-            maxFiles: themaxfiles
-        });
+    $('.input-gallery').imageUploader({
+      preloaded: preloaded,
+      imagesInputName: 'file',
+      preloadedInputName: 'old',
+      maxFiles: themaxfiles
+    });
 
-        $( ".addnew" ).click(function() {
+    $(".addnew").click(function() {
 
-            $( ".input-gallery input[type=file]" ).trigger("click");
-
-        });
-
-        watchadd();
+      $(".input-gallery input[type=file]").trigger("click");
 
     });
+
+    watchadd();
+
+  });
 </script>
 
 <script>
-$(document).ready(function() {
-    
-  // Preview avatar
-  $.uploadPreview({
-    input_field: "#image-upload",
-    preview_box: "#image-preview",
-    label_field: "#image-label",
-    label_default: "Envie ou arraste",
-    label_selected: "Trocar imagem",
-    no_label: false
+  $(document).ready(function() {
+
+    // Preview avatar
+    $.uploadPreview({
+      input_field: "#image-upload",
+      preview_box: "#image-preview",
+      label_field: "#image-label",
+      label_default: "Envie ou arraste",
+      label_selected: "Trocar imagem",
+      no_label: false
+    });
+
+    // Preview capa
+    $.uploadPreview({
+      input_field: "#image-upload2",
+      preview_box: "#image-preview2",
+      label_field: "#image-label2",
+      label_default: "Envie ou arraste",
+      label_selected: "Trocar imagem",
+      no_label: false
+    });
+
   });
-
-  // Preview capa
-  $.uploadPreview({
-    input_field: "#image-upload2",
-    preview_box: "#image-preview2",
-    label_field: "#image-label2",
-    label_default: "Envie ou arraste",
-    label_selected: "Trocar imagem",
-    no_label: false
-  });
-
-});
-
 </script>
 
 <script>
-
   function masks() {
 
-    $(".maskdate").mask("99/99/9999",{placeholder:""});
-    $(".maskrg").mask("99999999-99",{placeholder:""});
-    $(".maskcpf").mask("999.999.999-99",{placeholder:""});
-    $(".maskcnpj").mask("99.999.999/9999-99",{placeholder:""});
+    $(".maskdate").mask("99/99/9999", {
+      placeholder: ""
+    });
+    $(".maskrg").mask("99999999-99", {
+      placeholder: ""
+    });
+    $(".maskcpf").mask("999.999.999-99", {
+      placeholder: ""
+    });
+    $(".maskcnpj").mask("99.999.999/9999-99", {
+      placeholder: ""
+    });
     $(".maskcel").mask("(99) 99999-9999");
     $(".maskcep").mask("99999-999");
     $(".dater").mask("99/99/9999");
     $(".masktime").mask("99:99:99");
     $(".masknumber").mask("99");
     $(".maskmoney").maskMoney({
-        prefix: "R$ ",
-        decimal: ",",
-        thousands: "."
+      prefix: "R$ ",
+      decimal: ",",
+      thousands: "."
     });
 
   }
@@ -918,27 +944,27 @@ $(document).ready(function() {
 
     var variacao = 0;
 
-    $( ".variacao" ).each(function() {
-      
-      $( this ).closest(".panel-subvariacao").find(".subvariacao-link").attr("href","#collapse-subvariacao-"+variacao);
-      $( this ).closest(".panel-subvariacao").find(".subvariacao-body").attr("id","collapse-subvariacao-"+variacao);
-      $( this ).closest(".panel-subvariacao").find(".adicionar-item").attr("variacao-id",variacao);
-      $( this ).attr("variacao-id",variacao);
-      $( this ).find(".col-item").attr("variacao-id",variacao);
-      $( this ).find(".variacao-nome").attr("name","variacao["+variacao+"][nome]");
-      $( this ).find(".variacao-escolha-minima").attr("name","variacao["+variacao+"][escolha_minima]");
-      $( this ).find(".variacao-escolha-maxima").attr("name","variacao["+variacao+"][escolha_maxima]");
+    $(".variacao").each(function() {
+
+      $(this).closest(".panel-subvariacao").find(".subvariacao-link").attr("href", "#collapse-subvariacao-" + variacao);
+      $(this).closest(".panel-subvariacao").find(".subvariacao-body").attr("id", "collapse-subvariacao-" + variacao);
+      $(this).closest(".panel-subvariacao").find(".adicionar-item").attr("variacao-id", variacao);
+      $(this).attr("variacao-id", variacao);
+      $(this).find(".col-item").attr("variacao-id", variacao);
+      $(this).find(".variacao-nome").attr("name", "variacao[" + variacao + "][nome]");
+      $(this).find(".variacao-escolha-minima").attr("name", "variacao[" + variacao + "][escolha_minima]");
+      $(this).find(".variacao-escolha-maxima").attr("name", "variacao[" + variacao + "][escolha_maxima]");
       variacao++;
-    
+
       var item = 0;
 
-      $( this ).find(".item").each(function() {
+      $(this).find(".item").each(function() {
 
-        var variacao_pai = $( this ).parent().attr('variacao-id');
-        $( this ).attr("item-id",item);
-        $( this ).find(".item-nome").attr("name","variacao["+variacao_pai+"][item]["+item+"][nome]");
-        $( this ).find(".item-descricao").attr("name","variacao["+variacao_pai+"][item]["+item+"][descricao]");
-        $( this ).find(".item-valor").attr("name","variacao["+variacao_pai+"][item]["+item+"][valor]");
+        var variacao_pai = $(this).parent().attr('variacao-id');
+        $(this).attr("item-id", item);
+        $(this).find(".item-nome").attr("name", "variacao[" + variacao_pai + "][item][" + item + "][nome]");
+        $(this).find(".item-descricao").attr("name", "variacao[" + variacao_pai + "][item][" + item + "][descricao]");
+        $(this).find(".item-valor").attr("name", "variacao[" + variacao_pai + "][item][" + item + "][valor]");
         item++;
 
       });
@@ -949,41 +975,41 @@ $(document).ready(function() {
 
   $(document).on('click', '.adicionar-variacao', function() {
 
-      var render;
-      $.get("<?php echo get_just_url(); ?>/_core/_ajax/variacoes.php?modo=variacao", function(data){
-          render = data;
-          $(".render-variacoes").append(render);
-          $(" .panel-subvariacao ").fadeIn(400);
-          reordena();
-          masks();
-      });
+    var render;
+    $.get("<?php echo get_just_url(); ?>/_core/_ajax/variacoes.php?modo=variacao", function(data) {
+      render = data;
+      $(".render-variacoes").append(render);
+      $(" .panel-subvariacao ").fadeIn(400);
+      reordena();
+      masks();
+    });
 
   });
 
   $(document).on('click', '.adicionar-item', function() {
 
-      var render;
-      var parent = $( this ).closest(".variacao").attr("variacao-id");
-      $.get("<?php echo get_just_url(); ?>/_core/_ajax/variacoes.php?modo=item", function(data){
-          render = data;
-          $('.variacao[variacao-id="'+parent+'"] .render-itens').find('.col-md-4:last-child').before(render);
-          $(" .col-item ").fadeIn(400);
-          reordena();
-          masks();
-      });
+    var render;
+    var parent = $(this).closest(".variacao").attr("variacao-id");
+    $.get("<?php echo get_just_url(); ?>/_core/_ajax/variacoes.php?modo=item", function(data) {
+      render = data;
+      $('.variacao[variacao-id="' + parent + '"] .render-itens').find('.col-md-4:last-child').before(render);
+      $(" .col-item ").fadeIn(400);
+      reordena();
+      masks();
+    });
 
   });
 
   $(document).on('keyup', '.variacao-nome', function() {
 
-    $( this ).closest(".panel-subvariacao").find(".variacao-desc").html( $( this ).val() );
+    $(this).closest(".panel-subvariacao").find(".variacao-desc").html($(this).val());
 
   });
 
   $(document).on('click', '.deletar-variacao', function() {
 
-    if( confirm("Tem certeza que deseja remover essa variação?") ) {
-      $( this ).closest(".panel-subvariacao").remove();
+    if (confirm("Tem certeza que deseja remover essa variação?")) {
+      $(this).closest(".panel-subvariacao").remove();
       reordena();
     }
 
@@ -991,8 +1017,8 @@ $(document).ready(function() {
 
   $(document).on('click', '.deletar-item', function() {
 
-    if( confirm("Tem certeza que deseja remover esse item?") ) {
-      $( this ).closest(".col-item").remove();
+    if (confirm("Tem certeza que deseja remover esse item?")) {
+      $(this).closest(".col-item").remove();
       reordena();
     }
 
@@ -1002,20 +1028,19 @@ $(document).ready(function() {
     var re = /[^0-9\-]/;
     var strreplacer = $(this).val();
     strreplacer = strreplacer.replace(re, '');
-    if( strreplacer == '' || strreplacer == '0' ) {
+    if (strreplacer == '' || strreplacer == '0') {
       strreplacer = '0';
     }
-    $(this).val( strreplacer );
+    $(this).val(strreplacer);
   });
 
   $(document).on('keyup keydown', '.variacao-escolha-maxima', function(o) {
     var re = /[^0-9\-]/;
     var strreplacer = $(this).val();
     strreplacer = strreplacer.replace(re, '');
-    if( strreplacer == '' || strreplacer == '0' ) {
+    if (strreplacer == '' || strreplacer == '0') {
       strreplacer = '1';
     }
-    $(this).val( strreplacer );
+    $(this).val(strreplacer);
   });
-
 </script>
