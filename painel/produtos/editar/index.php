@@ -547,6 +547,9 @@ include('../../_layout/modal.php');
                                                                 <div class='remover deletar-item'>
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
+                                                                <div class='esconder esconder-item'>
+                                                                  <i class='lni lni-eye'></i>
+                                                                </div>
                                                               </div>
                                                             </div>
                                                           </div>
