@@ -803,7 +803,7 @@ include('../../_layout/footer.php');
 
       
     })
-  }, 2000)
+  }, 5000)
 
 
     // Globais
