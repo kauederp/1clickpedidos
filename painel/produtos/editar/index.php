@@ -804,6 +804,7 @@ include('../../_layout/footer.php');
 
       
     })
+    console.log("carregou")
   }, 5000)
 
 
