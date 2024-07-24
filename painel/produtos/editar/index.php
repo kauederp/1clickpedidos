@@ -787,7 +787,8 @@ include('../../_layout/footer.php');
 
       e.onclick = () => {
         e.classList.add("text-danger")
-        document.querySelector(".esconder-input").value = false
+        e.parentElement.children[1].value = e.parentElement.children[1] == ''?true:'';
+        
       }
 
 
