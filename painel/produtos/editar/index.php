@@ -559,13 +559,13 @@ if ($formdata) {
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
                                                                 <div class='esconder esconder-item'>
-                                                                  <span class="material-symbols-outlined">
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])!='false'?'d-none':'');?> material-symbols-outlined">
                                                                     visibility
                                                                   </span>
-                                                                  <span class="d-none material-symbols-outlined">
+                                                                  <span class="<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])=='false'?'d-none':'');?> material-symbols-outlined">
                                                                     visibility_off
                                                                   </span>
-                                                                  <?php echo htmljson($variacao[$x]['item'][$y]['esconder']);?>
+                                                                  
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
                                                                 </div>
                                                               </div>
