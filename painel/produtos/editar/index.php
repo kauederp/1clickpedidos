@@ -782,26 +782,26 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  setTimeout(()=>{
+  setTimeout(() => {
     document.querySelectorAll("span").forEach(e => {
-    if (e.innerText == "visibility") {
+      if (e.innerText == "visibility") {
         let eyeSlash = e.parentElement.children[1]
         let eye = e
         eye.addEventListener("click", () => {
-            eye.classList.add("d-none")
-            
-            eyeSlash.classList.remove("d-none")
-            eyeSlash.addEventListener("click", () => {
-                eyeSlash.classList.add("d-none")
-                eye.classList.remove("d-none")
-            })
+          eye.classList.add("d-none")
+
+          eyeSlash.classList.remove("d-none")
+          eyeSlash.addEventListener("click", () => {
+            eyeSlash.classList.add("d-none")
+            eye.classList.remove("d-none")
+          })
         })
-    }
-})
-  },1000)
+      }
+    })
+  }, 2000)
   $(document).ready(function() {
 
-    
+
     // Globais
 
     $("#the_form").validate({
