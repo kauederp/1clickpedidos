@@ -817,9 +817,13 @@ var toggles = () => {
 
     })
   }
+
+  while(document.querySelectorAll("span.material-symbols-outlined").length==0){
+        setTimeout(()=>{toggles();},200)
+    }
   $(document).ready(function() {
 
-    toggles();
+    
     // Globais
 
     $("#the_form").validate({
@@ -979,11 +983,11 @@ var toggles = () => {
   }
 
   function reordena() {
-    toggles();
+    
     var variacao = 0;
 
     $(".variacao").each(function() {
-      toggles();
+      
       $(this).closest(".panel-subvariacao").find(".subvariacao-link").attr("href", "#collapse-subvariacao-" + variacao);
       $(this).closest(".panel-subvariacao").find(".subvariacao-body").attr("id", "collapse-subvariacao-" + variacao);
       $(this).closest(".panel-subvariacao").find(".adicionar-item").attr("variacao-id", variacao);
