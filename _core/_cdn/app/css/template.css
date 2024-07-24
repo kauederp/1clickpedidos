@@ -1770,7 +1770,8 @@ height: auto;
 }
 
 .opcoes {
-	column-count: 2;
+	flex-wrap:wrap;
+	
 }
 
 .comprar .line-variacao {
@@ -1799,6 +1800,7 @@ cursor: pointer;
 /* width: 49%; */
 min-height: 62px;
 padding: 0;
+flex: 1 0 50%;
 }
 .d-none{
 	display: none !important;
