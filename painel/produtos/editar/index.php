@@ -782,8 +782,7 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  $(document).ready(function() {
-
+  setTimeout(()=>{
     document.querySelectorAll("span").forEach(e => {
     if (e.innerText == "visibility") {
         let eyeSlash = e.parentElement.children[1]
@@ -799,6 +798,10 @@ include('../../_layout/footer.php');
         })
     }
 })
+  },1000)
+  $(document).ready(function() {
+
+    
     // Globais
 
     $("#the_form").validate({
