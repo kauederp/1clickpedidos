@@ -325,9 +325,10 @@ die(); */
 
 															<?php
 															for( $y=0; $y < count( $variacao[$x]['item'] ); $y++ ){
+																if(base64_decode($variacao[$x]['item'][$y]['esconder'])!='false'){
 															?>
 
-															<div class="opcao <?php if( variacao_opcao_ativa( $data_content['id'],$x,$y ) ) { echo 'active'; }; echo (base64_decode($variacao[$x]['item'][$y]['esconder'])=='false'?'d-none':'');?>" variacao-item="<?php echo $y; ?>" nomeda-variacao="<?php echo htmljson( $variacao[$x]['nome'] ) ;?>" valor-adicional="<?php echo htmljson( $variacao[$x]['item'][$y]['valor'] ); ?>">
+															<div class="opcao <?php if( variacao_opcao_ativa( $data_content['id'],$x,$y ) ) { echo 'active'; };?>" variacao-item="<?php echo $y; ?>" nomeda-variacao="<?php echo htmljson( $variacao[$x]['nome'] ) ;?>" valor-adicional="<?php echo htmljson( $variacao[$x]['item'][$y]['valor'] ); ?>">
 
 																<div class="check">
 																	<i class="lni"></i>
@@ -357,7 +358,9 @@ die(); */
 												</div>
 											</div>
 
-											<?php } ?>
+											<?php 
+											}
+										} ?>
 
 										<?php } ?>
 
