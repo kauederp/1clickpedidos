@@ -804,8 +804,8 @@ include('../../_layout/footer.php');
       }
 
       if (e.innerText == "visibility_off") {
-        let eyeSlash = e.parentElement.children[1]
-        let eye = e
+        let eyeSlash = e
+        let eye = e.parentElement.children[0]
     eyeSlash.addEventListener("click", () => {
           eyeSlash.classList.add("d-none")
           document.querySelector(".esconder-input").value = "true"
