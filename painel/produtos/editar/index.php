@@ -785,14 +785,18 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  setInterval(() => {
+  setTimeout(() => {
     document.querySelectorAll("span").forEach(e => {
       if (e.innerText == "visibility" || e.innerText == "visibility_off") {
+
         e.addEventListener("click", () => {
+
           if (e.innerText == "visibility") {
             e.innerText = "visibility_off"
             document.querySelector(".esconder-input").value = false
           }
+
+
           if (e.innerText == "visibility_off") {
 
             e.innerText = "visibility"
@@ -806,7 +810,7 @@ include('../../_layout/footer.php');
 
 
     })
-  }, 1000)
+  }, 3000)
   $(document).ready(function() {
 
 
