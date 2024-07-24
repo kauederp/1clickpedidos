@@ -796,7 +796,7 @@ include('../../_layout/footer.php');
             document.querySelector(".esconder-input").value = false
             console.log(false)
           }
-
+          console.log(e)
 
           if (e.innerText == "visibility_off") {
 
@@ -804,6 +804,7 @@ include('../../_layout/footer.php');
             document.querySelector(".esconder-input").value = true
             console.log(true)
           }
+          console.log(e)
         })
       }
 
