@@ -347,7 +347,7 @@ die(); */
 															</div>
 															
 
-															
+															<?php }} ?>
 
 														</div>
 														<div class="clear"></div>
@@ -358,9 +358,7 @@ die(); */
 												</div>
 											</div>
 
-											<?php 
-											
-										} ?>
+											<?php } ?>
 
 										<?php } ?>
 
