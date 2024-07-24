@@ -1800,6 +1800,9 @@ width: 49%;
 min-height: 62px;
 padding: 0;
 }
+.d-none{
+	display: none !important;
+}
 
 .opcoes .opcao:nth-child(even) {
 float: right;
