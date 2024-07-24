@@ -1798,7 +1798,8 @@ align-items: center;
 margin: 0 0 10px 0;
 background: rgba(0,0,0,.05);
 cursor: pointer;
-/* width: 49%; */
+ width: 49%; 
+
 min-height: 62px;
 padding: 0;
 flex: 1 0 50%;
