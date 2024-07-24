@@ -347,7 +347,7 @@ die(); */
 															</div>
 															
 
-															<?php } ?>
+															<?php }} ?>
 
 														</div>
 														<div class="clear"></div>
@@ -362,7 +362,7 @@ die(); */
 											
 										} ?>
 
-										<?php } }?>
+										<?php }?>
 
 										<div class="line quantidade">
 											<div class="row">
