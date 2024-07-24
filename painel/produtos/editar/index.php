@@ -549,6 +549,7 @@ include('../../_layout/modal.php');
                                                                 </div>
                                                                 <div class='esconder esconder-item'>
                                                                   <i class='lni lni-eye'></i>
+                                                                  <i class='lni lni-eye-slash'></i>
                                                                 </div>
                                                               </div>
                                                             </div>
