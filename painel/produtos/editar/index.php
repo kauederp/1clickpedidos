@@ -501,7 +501,7 @@ if ($formdata) {
                                                 <i class="menos lni lni-minus"></i>
                                               </div>
                                               <div class="col-md-8 col-sm-8 col-xs-6">
-                                                <span class="variacao-desc"><?php echo htmljson($variacao[$x]['nome']); ?></span>
+                                                <span class="variacao-desc" onclick="toggles()"><?php echo htmljson($variacao[$x]['nome']); ?></span>
                                               </div>
                                               <div class="col-md-2 col-sm-2 col-xs-3">
                                                 <i class="deletar deletar-variacao lni lni-trash"></i>
@@ -785,7 +785,7 @@ include('../../_layout/footer.php');
 ?>
 
 <script>
-  setInterval(() => {
+var toggles = () => {
     document.querySelectorAll("span").forEach(e => {
       if (e.innerText == "visibility" || e.innerText == "visibility_off") {
 
@@ -816,7 +816,7 @@ include('../../_layout/footer.php');
 
 
     })
-  }, 3000)
+  }
   $(document).ready(function() {
 
 
