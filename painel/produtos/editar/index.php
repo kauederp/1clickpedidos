@@ -558,8 +558,10 @@ if ($formdata) {
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
                                                                 <div class='esconder esconder-item'>
-                                                                  <i class='lni lni-eye'></i>
                                                                   <span class="material-symbols-outlined">
+                                                                    visibility_on
+                                                                  </span>
+                                                                  <span class="d-none material-symbols-outlined">
                                                                     visibility_off
                                                                   </span>
                                                                 </div>
