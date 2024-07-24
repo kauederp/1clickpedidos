@@ -345,11 +345,11 @@ die(); */
 																	<span class="descricao"><?php echo htmljson( $variacao[$x]['item'][$y]['descricao'] ); ?></span>
 																</div>
 																<div class="clear"></div>
-
+																<?php } ?>
 															</div>
 															
 
-															<?php }} ?>
+															<?php } ?>
 
 														</div>
 														<div class="clear"></div>
