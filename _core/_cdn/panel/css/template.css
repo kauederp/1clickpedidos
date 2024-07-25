@@ -1640,6 +1640,8 @@ body {
 }
 .variacoes .variacao .esconder i {
 	margin-left: 10px;
+	font-size: 22px;
+	font-weight: bold;
 }
 .variacoes .variacao .remover i {
 	display: block;
