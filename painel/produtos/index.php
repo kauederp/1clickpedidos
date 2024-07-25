@@ -318,11 +318,11 @@ if( !$pagina OR $pagina > $total_paginas OR !is_numeric($pagina) ) {
 										<div class="form-actions pull-right">
 										    
 										    <?php if($data['status'] == 1 ) { ?>
-										    <a class="color-red" style="font-weight: bold;" href="<?php panel_url(); ?>/produtos/desativar/?id=<?php echo $data['id']; ?>" title="Desativar"><!-- <i class="lni lni-cross-circle"></i> -->OFF </a>
+										    <a class="color-red" style="font-weight: bold;" href="<?php panel_url(); ?>/produtos/desativar/?id=<?php echo $data['id']; ?>" title="Desativar"><!-- <i class="lni lni-cross-circle"></i> -->ON </a>
 										    <?php } ?>
 										    
 										    <?php if($data['status'] == 2 ) { ?>
-										    <a class="color-green" style="font-weight: bold;" href="<?php panel_url(); ?>/produtos/ativar/?id=<?php echo $data['id']; ?>" title="Ativar"><!-- <i class="lni lni-checkmark-circle"></i> -->ON</a>
+										    <a class="color-green" style="font-weight: bold;" href="<?php panel_url(); ?>/produtos/ativar/?id=<?php echo $data['id']; ?>" title="Ativar"><!-- <i class="lni lni-checkmark-circle"></i> -->OFF</a>
 										    <?php } ?>
 										    
 										    
