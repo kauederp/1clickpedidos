@@ -563,6 +563,7 @@ if ($formdata) {
 
 
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
+                                                                  <span><?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'Indisponível' : 'Disponível'); ?></span>
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -784,11 +785,15 @@ include('../../_layout/footer.php');
   var toggles = () => {
     document.querySelectorAll(".lni.lni-eye").forEach(e => {
 
-
       e.onclick = () => {
         e.classList.toggle("text-danger")
         
-        e.parentElement.children[1].value = !e.classList.contains("text-danger")
+        
+          e.parentElement.children[1].value = !e.classList.contains("text-danger")
+          let span =  e.parentElement.children[2]
+          span.innerText = !e.classList.contains("text-danger")?"Disponível":"indisponível";
+          
+        
         
         
       }
