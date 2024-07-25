@@ -558,15 +558,16 @@ if ($formdata) {
                                                                 <div class='remover deletar-item'>
                                                                   <i class='lni lni-trash'></i>
                                                                 </div>
-                                                                <div class='esconder text-primary esconder-item'>
+                                                                
+                                                              </div>
+                                                            </div>
+                                                            <div class='esconder text-primary esconder-item'>
                                                                   <i class="lni lni-eye text-<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'danger' : 'primary'); ?> "></i>
 
 
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
                                                                   <span><?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'Indisponível' : 'Disponível'); ?></span>
                                                                 </div>
-                                                              </div>
-                                                            </div>
                                                           </div>
                                                           <div class='content'>
                                                             <div class='row'>
