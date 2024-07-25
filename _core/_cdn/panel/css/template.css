@@ -1633,10 +1633,14 @@ body {
 }
 
 .variacoes .variacao .esconder {
+	display: flex;
 	padding: 22px 0 20px 5px !important;
 	cursor: pointer;
+	flex-direction: row-reverse;
 }
-
+.variacoes .variacao .esconder i {
+	margin-left: 10px;
+}
 .variacoes .variacao .remover i {
 	display: block;
 	border-radius: 100%;

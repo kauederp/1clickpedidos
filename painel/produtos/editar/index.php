@@ -561,6 +561,7 @@ if ($formdata) {
                                                                 
                                                               </div>
                                                             </div>
+                                                            <div class="row">
                                                             <div class='esconder text-primary esconder-item'>
                                                                   <i class="lni lni-eye text-<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'danger' : 'primary'); ?> "></i>
 
@@ -568,6 +569,8 @@ if ($formdata) {
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
                                                                   <span><?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'Indisponível' : 'Disponível'); ?></span>
                                                                 </div>
+                                                            </div>
+                                                            
                                                           </div>
                                                           <div class='content'>
                                                             <div class='row'>
