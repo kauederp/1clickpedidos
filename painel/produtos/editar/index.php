@@ -790,7 +790,7 @@ include('../../_layout/footer.php');
     document.querySelectorAll(".lni.lni-eye").forEach(e => {
 
       e.onclick = () => {
-        e.parentElement.classList.toggle("text-danger")
+        e.parentElement.parentElement.classList.toggle("text-danger")
         
         
           e.parentElement.parentElement.value = !e.parentElement.classList.contains("text-danger")
