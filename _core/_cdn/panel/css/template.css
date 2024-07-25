@@ -1635,13 +1635,13 @@ body {
 .variacoes .variacao .esconder {
 	display: flex;
 	padding: 22px 6px 20px 5px !important;
-	cursor: pointer;
 	flex-direction: row-reverse;
 }
 .variacoes .variacao .esconder div{
 
 }
 .variacoes .variacao .esconder div i {
+	cursor: pointer;
 	margin-left: 10px;
 	font-size: 22px;
 	font-weight: bold;
