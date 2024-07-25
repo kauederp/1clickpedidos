@@ -1634,7 +1634,7 @@ body {
 
 .variacoes .variacao .esconder {
 	display: flex;
-	padding: 22px 23px 20px 5px !important;
+	padding: 22px 0 20px 5px !important;
 	cursor: pointer;
 	flex-direction: row-reverse;
 }
