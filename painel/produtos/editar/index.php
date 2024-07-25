@@ -795,7 +795,13 @@ include('../../_layout/footer.php');
         
           e.parentElement.parentElement.value = !e.parentElement.classList.contains("text-danger")
           let span =  e.parentElement.parentElement.children[2]
-          !e.classList.contains("text-danger")?span.innerText="Disponível":span.innerText="indisponível";
+          
+          if(!e.classList.contains("text-danger")){
+            span.innerText="Disponível";
+            
+          }else{
+            span.innerText="indisponível";
+          }
           console.log(span)
         
         
