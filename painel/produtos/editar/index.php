@@ -790,10 +790,10 @@ include('../../_layout/footer.php');
     document.querySelectorAll(".lni.lni-eye").forEach(e => {
 
       e.onclick = () => {
-        e.classList.toggle("text-danger")
+        e.parentElement.parentElement.classList.toggle("text-danger")
         
         
-          e.parentElement.children[1].value = !e.classList.contains("text-danger")
+          e.parentElement.parentElement.value = !e.parentElement.parentElement.classList.contains("text-danger")
           let span =  e.parentElement.children[2]
           span.innerText = !e.classList.contains("text-danger")?"Disponível":"indisponível";
           
