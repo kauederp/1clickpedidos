@@ -562,7 +562,7 @@ if ($formdata) {
                                                               </div>
                                                             </div>
                                                             <div class="row">
-                                                            <div class='esconder text-<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'danger' : 'primary'); ?>  esconder-item'>
+                                                            <div class="esconder text-<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'danger' : 'primary'); ?>  esconder-item">
                                                                   <div class="col-2"><i class="lni lni-eye "></i></div>
 
 
