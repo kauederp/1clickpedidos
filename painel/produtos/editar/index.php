@@ -567,7 +567,7 @@ if ($formdata) {
 
 
                                                                   <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]'>
-                                                                  <span><?php echo (htmljson($variacao[$x]['item'][$y]['esconder']))?"Disponível":"Indisponível"; ?></span>
+                                                                  <span><?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) != 'false' )?"Disponível":"Indisponível"; ?></span>
                                                                 </div>
                                                             </div>
                                                             
