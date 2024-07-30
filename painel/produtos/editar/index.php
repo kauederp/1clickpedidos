@@ -64,8 +64,7 @@ if ($formdata) {
   }
 
   $variacao =  $_POST['variacao'];
-  echo $variacao;
-  die();
+ 
   for ($x = 0; $x < count($variacao); $x++) {
     $variacao[$x]['nome'] = jsonsave($variacao[$x]['nome']);
     $variacao[$x]['escolha_minima'] = jsonsave($variacao[$x]['escolha_minima']);
@@ -546,6 +545,7 @@ if ($formdata) {
                                 <div class='render-itens'>
 
                                   <?php
+                                  echo count($variacao[$x]['item']);
                                   for ($y = 0; $y < count($variacao[$x]['item']); $y++) {
                                   ?>
 
