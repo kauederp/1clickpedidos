@@ -475,7 +475,7 @@ if ($formdata) {
                   </div>
                   <!--  Variações                              -->
 
-                  <?php print_r(json_decode($data['variacao'],TRUE)[0]);?>
+                  
                   <div id="collapse-variacao" class="panel-collapse collapse <?php if ($_SESSION['estabelecimento']['funcionalidade_variacao'] == "1") {
                                                               echo "in";
                                                             } ?>">
@@ -491,7 +491,7 @@ if ($formdata) {
             <div class="render-variacoes">
 
               <?php
-              //$variacao = json_decode($data['variacao'], TRUE);
+              $variacao = json_decode($data['variacao'], TRUE);
               for ($x = 0; $x < count($variacao); $x++) {
               ?>
 
