@@ -96,53 +96,53 @@ class TokenParser
      *
      * @return array<string, string> A list with all found class names for a use statement.
      */
-    public function parseUseStatement()
-    {
-        $groupRoot     = '';
-        $class         = '';
-        $alias         = '';
-        $statements    = [];
-        $explicitAlias = false;
-        while (($token = $this->next())) {
-            if (! $explicitAlias && $token[0] === T_STRING) {
-                $class .= $token[1];
-                $alias  = $token[1];
-            } elseif ($explicitAlias && $token[0] === T_STRING) {
-                $alias = $token[1];
-            } elseif (
-                PHP_VERSION_ID >= 80000 &&
-                ($token[0] === T_NAME_QUALIFIED || $token[0] === T_NAME_FULLY_QUALIFIED)
-            ) {
-                $class .= $token[1];
-
-                $classSplit = explode('\\', $token[1]);
-                $alias      = $classSplit[count($classSplit) - 1];
-            } elseif ($token[0] === T_NS_SEPARATOR) {
-                $class .= '\\';
-                $alias  = '';
-            } elseif ($token[0] === T_AS) {
-                $explicitAlias = true;
-                $alias         = '';
-            } elseif ($token === ',') {
-                $statements[strtolower($alias)] = $groupRoot . $class;
-                $class                          = '';
-                $alias                          = '';
-                $explicitAlias                  = false;
-            } elseif ($token === ';') {
-                $statements[strtolower($alias)] = $groupRoot . $class;
-                break;
-            } elseif ($token === '{') {
-                $groupRoot = $class;
-                $class     = '';
-            } elseif ($token === '}') {
-                continue;
-            } else {
-                break;
-            }
+    public function parseUseStatement(): array
+{
+    $groupRoot     = '';
+    $class         = '';
+    $alias         = '';
+    $statements    = [];
+    $explicitAlias = false;
+    
+    for ($token = $this->next(); $token !== null; $token = $this->next()) {
+        if (!$explicitAlias && $token[0] === T_STRING) {
+            $class .= $token[1];
+            $alias  = $token[1];
+        } elseif ($explicitAlias && $token[0] === T_STRING) {
+            $alias = $token[1];
+        } elseif (
+            PHP_VERSION_ID >= 80000 &&
+            ($token[0] === T_NAME_QUALIFIED || $token[0] === T_NAME_FULLY_QUALIFIED)
+        ) {
+            $class .= $token[1];
+            $classSplit = explode('\\', $token[1]);
+            $alias      = end($classSplit);
+        } elseif ($token[0] === T_NS_SEPARATOR) {
+            $class .= '\\';
+            $alias  = '';
+        } elseif ($token[0] === T_AS) {
+            $explicitAlias = true;
+            $alias         = '';
+        } elseif ($token === ',') {
+            $statements[strtolower($alias)] = $groupRoot . $class;
+            $class                          = '';
+            $alias                          = '';
+            $explicitAlias                  = false;
+        } elseif ($token === ';') {
+            $statements[strtolower($alias)] = $groupRoot . $class;
+            break;
+        } elseif ($token === '{') {
+            $groupRoot = $class;
+            $class     = '';
+        } elseif ($token === '}') {
+            continue;
+        } else {
+            break;
         }
-
-        return $statements;
     }
+
+    return $statements;
+}
 
     /**
      * Gets all use statements.
