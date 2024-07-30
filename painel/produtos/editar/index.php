@@ -490,7 +490,7 @@ if ($formdata) {
             <div class="render-variacoes">
 
               <?php
-              $variacao = json_decode($data['variacao'], TRUE);
+              //$variacao = json_decode($data['variacao'], TRUE);
               for ($x = 0; $x < count($variacao); $x++) {
               ?>
 
