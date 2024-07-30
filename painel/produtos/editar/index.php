@@ -475,6 +475,131 @@ if ($formdata) {
                   <!--  Variações                              -->
 
                   <?php print_r(json_decode($data['variacao'],TRUE)[0]);?>
+                  <div id="collapse-variacao" class="panel-collapse collapse <?php if ($_SESSION['estabelecimento']['funcionalidade_variacao'] == "1") {
+                                                              echo "in";
+                                                            } ?>">
+  <div class="panel-body">
+
+    <?php if ($_SESSION['estabelecimento']['funcionalidade_variacao'] == "1") { ?>
+
+      <!-- Variações -->
+
+      <div class="variacoes">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="render-variacoes">
+
+              <?php
+              $variacao = json_decode($data['variacao'], TRUE);
+              for ($x = 0; $x < count($variacao); $x++) {
+              ?>
+
+                <div class="panel-group panel-filters panel-subvariacao">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a class="subvariacao-link" data-toggle="collapse" href="#collapse-subvariacao-<?php echo $x; ?>">
+                          <div class="row alignmiddle">
+                            <div class="col-md-2 col-sm-2 col-xs-3">
+                              <i class="menos lni lni-minus"></i>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-6">
+                              <span class="variacao-desc" onclick="toggles()"><?php echo htmljson($variacao[$x]['nome']); ?></span>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-3">
+                              <i class="deletar deletar-variacao lni lni-trash"></i>
+                            </div>
+                          </div>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapse-subvariacao-<?php echo $x; ?>" class="subvariacao-body panel-collapse collapse">
+                      <div class="panel-body panel-body-subvariacao">
+                        <div class='variacao' variacao-id=''>
+                          <div class='title'>
+                            <div class='row'>
+                              <div class='col col-md-6 col-sm-12 col-xs-12'>
+                                <div class='form-field-default'>
+                                  <label>Nome da variação:</label>
+                                  <input class='variacao-nome' type='text' name='variacao[<?php echo $x; ?>][nome]' placeholder='Nome' value="<?php echo htmljson($variacao[$x]['nome']); ?>" />
+                                </div>
+                              </div>
+                              <div class='col col-md-3 col-sm-6 col-xs-6'>
+                                <div class='form-field-default'>
+                                  <label>Escolha minima:</label>
+                                  <input class='variacao-escolha-minima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_minima]' min='0' value='<?php echo htmljson($variacao[$x]['escolha_minima']); ?>' />
+                                </div>
+                              </div>
+                              <div class='col col-md-3 col-sm-6 col-xs-6'>
+                                <div class='form-field-default'>
+                                  <label>Escolha máxima:</label>
+                                  <input class='variacao-escolha-maxima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_maxima]' min='1' value='<?php echo htmljson($variacao[$x]['escolha_maxima']); ?>' />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class='content'>
+                            <div class='row'>
+                              <div class='col-md-12'>
+                                <div class='render-itens'>
+
+                                 
+
+                                  <div class='col-md-4'>
+                                    <div class='adicionar adicionar-item'>
+                                      <i class='lni lni-plus'></i>
+                                      <span>Adicionar item</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              <?php } ?>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="adicionar adicionar-variacao">
+              <i class="lni lni-plus"></i>
+              <span>Adicionar variação</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- / Variações -->
+
+    <?php } else { ?>
+
+      <div class="expiration-info variacao-hire">
+        <div class="row">
+          <div class="col-md-9">
+            <span class="msg">O seu plano não possuí suporte para variações de produto, visite a nossa seção de planos e adquira um com a funcionalidade.</span>
+          </div>
+          <div class="col-md-3">
+            <div class="add-new add-center text-center">
+              <a href="<?php panel_url(); ?>/plano/listar">
+                <span>Ver planos</span>
+                <i class="lni lni-plus"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <?php } ?>
+
+  </div>
+</div>
                 </div>
               </div>
 
