@@ -543,7 +543,7 @@ if ($formdata) {
                               <div class='col-md-12'>
                                 <div class='render-itens'>
 
-                                 
+                                 <?php echo $variacao[$x]['item'];?>
 
                                   <div class='col-md-4'>
                                     <div class='adicionar adicionar-item'>
