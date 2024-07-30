@@ -493,7 +493,7 @@ if ($formdata) {
               <?php
               $variacao = json_decode($data['variacao'], TRUE);
               echo print_r(base64_decode($variacao[0]['nome']));
-              echo htmljson($variacao[0]['nome']);
+              //echo htmljson($variacao[0]['nome']);
               for ($x = 0; $x < count($variacao); $x++) {
               ?>
 
