@@ -1,173 +1,108 @@
 <?php
-// CORE
-include('../../../_core/_includes/config.php');
-// RESTRICT
-restrict_estabelecimento();
-// SEO
-$seo_subtitle = "Editar produto";
-$seo_description = "";
-$seo_keywords = "";
-// HEADER
-$system_header .= "";
-include('../../_layout/head.php');
-include('../../_layout/top.php');
-include('../../_layout/sidebars.php');
-include('../../_layout/modal.php');
+global $numeric_data, $gallery_max_files;
 
-?>
-
-<?php
-
-// Globals
-
-global $numeric_data;
-global $gallery_max_files;
 $eid = $_SESSION['estabelecimento']['id'];
 $id = mysqli_real_escape_string($db_con, $_GET['id']);
 $edit = mysqli_query($db_con, "SELECT * FROM produtos WHERE id = '$id' AND rel_estabelecimentos_id = '$eid' LIMIT 1");
 $hasdata = mysqli_num_rows($edit);
 $data = mysqli_fetch_array($edit);
 
-// Checar se formulário foi executado
-
-$formdata = $_POST['formdata'];
+// Checar se o formulário foi enviado
+$formdata = $_POST['formdata'] ?? null;
 
 if ($formdata) {
+    // Sanitize and process input
+    $pesofrete = isset($_POST['pesofrete']) ? str_replace(',', '.', mysqli_real_escape_string($db_con, $_POST['pesofrete'])) : null;
+    $alturafrete = mysqli_real_escape_string($db_con, $_POST['alturafrete'] ?? '');
+    $largurafrete = mysqli_real_escape_string($db_con, $_POST['largurafrete'] ?? '');
+    $comprimentofrete = mysqli_real_escape_string($db_con, $_POST['comprimentofrete'] ?? '');
+    $diametrofrete = mysqli_real_escape_string($db_con, $_POST['diametrofrete'] ?? '');
 
-  if (isset($_POST['pesofrete'])) {
-    $pesofrete          = mysqli_real_escape_string($db_con, $_POST['pesofrete']);
-    if ($pesofrete != '') {
-      $pesofrete = str_replace(',', '.', $pesofrete);
-    }
-    $alturafrete        = mysqli_real_escape_string($db_con, $_POST['alturafrete']);
-    $largurafrete       = mysqli_real_escape_string($db_con, $_POST['largurafrete']);
-    $comprimentofrete = mysqli_real_escape_string($db_con, $_POST['comprimentofrete']);
-    $diametrofrete      = mysqli_real_escape_string($db_con, $_POST['diametrofrete']);
-  }
-  // Setar campos
+    $categoria = mysqli_real_escape_string($db_con, $_POST['categoria'] ?? '');
+    $ref = mysqli_real_escape_string($db_con, $_POST['ref'] ?? '');
+    $nome = mysqli_real_escape_string($db_con, $_POST['nome'] ?? '');
+    $video_link = mysqli_real_escape_string($db_con, $_POST['video_link'] ?? '');
+    $descricao = mysqli_real_escape_string($db_con, $_POST['descricao'] ?? '');
+    $estoque = mysqli_real_escape_string($db_con, $_POST['estoque'] ?? '');
+    $posicao = mysqli_real_escape_string($db_con, $_POST['posicao'] ?? '');
+    $valor = dinheiro(mysqli_real_escape_string($db_con, $_POST['valor'] ?? '0.00'));
+    $oferta = mysqli_real_escape_string($db_con, $_POST['oferta'] ?? '');
+    $valor_promocional = dinheiro(mysqli_real_escape_string($db_con, $_POST['valor_promocional'] ?? '0.00'));
 
-  $categoria = mysqli_real_escape_string($db_con, $_POST['categoria']);
-  $ref = mysqli_real_escape_string($db_con, $_POST['ref']);
-  $nome = mysqli_real_escape_string($db_con, $_POST['nome']);
-  $video_link = mysqli_real_escape_string($db_con, $_POST['video_link']);
-  $descricao = mysqli_real_escape_string($db_con, $_POST['descricao']);
-  $estoque = mysqli_real_escape_string($db_con, $_POST['estoque']);
-  $posicao = mysqli_real_escape_string($db_con, $_POST['posicao']);
-  $valor = dinheiro(mysqli_real_escape_string($db_con, $_POST['valor']));
-  if (!$valor) {
-    $valor = "0.00";
-  }
-  $oferta = mysqli_real_escape_string($db_con, $_POST['oferta']);
-  $valor_promocional = dinheiro(mysqli_real_escape_string($db_con, $_POST['valor_promocional']));
-  if (!$valor_promocional) {
-    $valor_promocional = "0.00";
-  }
-
-  $variacao =  $_POST['variacao'];
-  for ($x = 0; $x < count($variacao); $x++) {
-    $variacao[$x]['nome'] = jsonsave($variacao[$x]['nome']);
-    $variacao[$x]['escolha_minima'] = jsonsave($variacao[$x]['escolha_minima']);
-    $variacao[$x]['escolha_maxima'] = jsonsave($variacao[$x]['escolha_maxima']);
-    for ($y = 0; $y < count($variacao[$x]['item']); $y++) {
-      $variacao[$x]['item'][$y]['nome'] =  jsonsave($variacao[$x]['item'][$y]['nome']);
-      $variacao[$x]['item'][$y]['descricao'] =  jsonsave($variacao[$x]['item'][$y]['descricao']);
-      $variacao[$x]['item'][$y]['esconder'] =  jsonsave($variacao[$x]['item'][$y]['esconder']);
-      $variacao[$x]['item'][$y]['valor'] = jsonsave(dinheiro(mysqli_real_escape_string($db_con, $variacao[$x]['item'][$y]['valor'])));
-    }
-  }
-  $variacao = json_encode($variacao, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-  $visible = mysqli_real_escape_string($db_con, $_POST['visible']);
-  $integrado = mysqli_real_escape_string($db_con, $_POST['integrado']);
-  $status = mysqli_real_escape_string($db_con, $_POST['status']);
-
-  // Checar Erros
-
-  $checkerrors = 0;
-  $errormessage = array();
-
-  if ($_FILES['destaque']['name']) {
-
-    $upload = upload_image($eid, $_FILES['destaque']);
-
-    if ($upload['status'] == "1") {
-      $destaque = $upload['url'];
-    } else {
-      $checkerrors++;
-      for ($x = 0; $x < count($upload['errors']); $x++) {
-        $errormessage[] = $upload['errors'][$x];
-      }
-    }
-  }
-
-  // -- Estabelecimento
-
-  if (!$eid) {
-    $checkerrors++;
-    $errormessage[] = "O estabelecimento não pode ser nulo";
-  }
-
-  // -- Nome
-
-  if (!$nome) {
-    $checkerrors++;
-    $errormessage[] = "O nome não pode ser nulo";
-  }
-
-  // -- Nome
-
-  if (!$estoque) {
-    $checkerrors++;
-    $errormessage[] = "Este produto controla estoque?";
-  }
-
-  // -- Valor
-
-  //if( !$valor ) {
-  //  $checkerrors++;
-  //  $errormessage[] = "O valor não pode ser nulo";
-  //}
-
-  // -- Estabelecimento
-
-  if ($data['rel_estabelecimentos_id'] != $eid) {
-    $checkerrors++;
-    $errormessage[] = "Ação inválida";
-  }
-
-  // Executar registro
-
-  if (!$checkerrors) {
-
-    if (edit_produto($id, $eid, $categoria, $destaque, $estoque, $posicao, $ref, $nome, $video_link, $descricao, $valor, $oferta, $valor_promocional, $variacao, $status, $visible, $integrado, $pesofrete, $alturafrete, $largurafrete, $comprimentofrete, $diametrofrete)) {
-
-      if ($_FILES['file']) {
-
-        for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
-
-          $file_name = $_FILES['file']['name'][$i];
-          $file_size = $_FILES['file']['size'][$i];
-          $file_tmp = $_FILES['file']['tmp_name'][$i];
-          $file_type = $_FILES['file']['type'][$i];
-          $upload = upload_image_direct($id, $file_name, $file_size, $file_tmp, $file_type);
-
-          if ($upload['status'] == "1") {
-
-            $url = $upload['url'];
-
-            mysqli_query($db_con, "INSERT INTO midia (type,rel_estabelecimentos_id,rel_id,url) VALUES ('1','$estabelecimento','$id','$url')");
-          }
+    $variacao = $_POST['variacao'] ?? [];
+    foreach ($variacao as &$var) {
+        $var['nome'] = jsonsave($var['nome']);
+        $var['escolha_minima'] = jsonsave($var['escolha_minima']);
+        $var['escolha_maxima'] = jsonsave($var['escolha_maxima']);
+        foreach ($var['item'] as &$item) {
+            $item['nome'] = jsonsave($item['nome']);
+            $item['descricao'] = jsonsave($item['descricao']);
+            $item['esconder'] = jsonsave($item['esconder']);
+            $item['valor'] = jsonsave(dinheiro(mysqli_real_escape_string($db_con, $item['valor'])));
         }
-      }
-
-      header("Location: index.php?msg=sucesso&id=" . $id);
-    } else {
-
-      header("Location: index.php?msg=erro&id=" . $id);
     }
-  }
-}
+    $variacao = json_encode($variacao, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
+    $visible = mysqli_real_escape_string($db_con, $_POST['visible'] ?? '');
+    $integrado = mysqli_real_escape_string($db_con, $_POST['integrado'] ?? '');
+    $status = mysqli_real_escape_string($db_con, $_POST['status'] ?? '');
+
+    // Checar erros
+    $checkerrors = 0;
+    $errormessage = [];
+
+    if (!empty($_FILES['destaque']['name'])) {
+        $upload = upload_image($eid, $_FILES['destaque']);
+        if ($upload['status'] == "1") {
+            $destaque = $upload['url'];
+        } else {
+            $checkerrors++;
+            $errormessage = array_merge($errormessage, $upload['errors']);
+        }
+    }
+
+    // Verificações adicionais
+    if (!$eid) {
+        $checkerrors++;
+        $errormessage[] = "O estabelecimento não pode ser nulo";
+    }
+
+    if (!$nome) {
+        $checkerrors++;
+        $errormessage[] = "O nome não pode ser nulo";
+    }
+
+    if (!$estoque) {
+        $checkerrors++;
+        $errormessage[] = "Este produto controla estoque?";
+    }
+
+    if ($data['rel_estabelecimentos_id'] != $eid) {
+        $checkerrors++;
+        $errormessage[] = "Ação inválida";
+    }
+
+    // Executar registro
+    if (!$checkerrors) {
+        if (edit_produto($id, $eid, $categoria, $destaque, $estoque, $posicao, $ref, $nome, $video_link, $descricao, $valor, $oferta, $valor_promocional, $variacao, $status, $visible, $integrado, $pesofrete, $alturafrete, $largurafrete, $comprimentofrete, $diametrofrete)) {
+            if (!empty($_FILES['file'])) {
+                foreach ($_FILES['file']['name'] as $index => $file_name) {
+                    $file_size = $_FILES['file']['size'][$index];
+                    $file_tmp = $_FILES['file']['tmp_name'][$index];
+                    $file_type = $_FILES['file']['type'][$index];
+                    $upload = upload_image_direct($id, $file_name, $file_size, $file_tmp, $file_type);
+                    if ($upload['status'] == "1") {
+                        $url = $upload['url'];
+                        mysqli_query($db_con, "INSERT INTO midia (type, rel_estabelecimentos_id, rel_id, url) VALUES ('1', '$eid', '$id', '$url')");
+                    }
+                }
+            }
+            header("Location: index.php?msg=sucesso&id=$id");
+        } else {
+            header("Location: index.php?msg=erro&id=$id");
+        }
+    }
+}
 ?>
 
 <div class="middle minfit bg-gray">
