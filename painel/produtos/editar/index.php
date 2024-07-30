@@ -543,58 +543,7 @@ if ($formdata) {
                               <div class='col-md-12'>
                                 <div class='render-itens'>
 
-                                  <?php
-                                  for ($y = 0; $y < count($variacao[$x]['item']); $y++) {
-                                  ?>
-
-                                    <div class='col-md-4 col-item' variacao-id='<?php echo $x; ?>' item-id='<?php echo $y; ?>'>
-                                      <div class='item'>
-                                        <div class='title'>
-                                          <div class='row'>
-                                            <div class='col col-md-10 col-sm-10 col-xs-10'>
-                                              <div class='form-field-default'>
-                                                <label>Nome:</label>
-                                                <input class='item-nome' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][nome]' placeholder='Nome' value="<?php echo htmljson($variacao[$x]['item'][$y]['nome']); ?>" />
-                                              </div>
-                                            </div>
-                                            <div class='col col-md-2 col-sm-2 col-xs-2'>
-                                              <div class='remover deletar-item'>
-                                                <i class='lni lni-trash'></i>
-                                              </div>
-
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="esconder text-primary text-<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'danger' : 'primary'); ?>  esconder-item">
-                                              <div class="col-2"><i class="lni lni-eye "></i></div>
-
-
-                                              <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]' value='<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])); ?>'>
-                                              <span><?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) != 'false') ? "Disponível" : "Indisponível"; ?></span>
-                                            </div>
-                                          </div>
-
-                                        </div>
-                                        <div class='content'>
-                                          <div class='row'>
-                                            <div class='col col-md-12'>
-                                              <div class='form-field-default'>
-                                                <label>Descrição:</label>
-                                                <textarea rows='1' class='item-descricao' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][descricao]' placeholder='Descrição'><?php echo htmljson($variacao[$x]['item'][$y]['descricao']); ?></textarea>
-                                              </div>
-                                            </div>
-                                            <div class='col col-md-12'>
-                                              <div class='form-field-default'>
-                                                <label>Valor adicional:</label>
-                                                <input class='item-valor maskmoney' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][valor]' placeholder='Valor' value="<?php echo dinheiro(htmljson($variacao[$x]['item'][$y]['valor']), "BR"); ?>" />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  <?php } ?>
+                                 
 
                                   <div class='col-md-4'>
                                     <div class='adicionar adicionar-item'>
