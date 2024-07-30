@@ -13,12 +13,7 @@ include('../../_layout/head.php');
 include('../../_layout/top.php');
 include('../../_layout/sidebars.php');
 include('../../_layout/modal.php');
-function htmljson($str) {
 
-	$str = htmlentities( base64_decode( $str ) );
-	return $str;
-
-}
 ?>
 
 <?php
