@@ -492,6 +492,7 @@ if ($formdata) {
 
               <?php
               $variacao = json_decode($data['variacao'], TRUE);
+              echo $variacao;
               for ($x = 0; $x < count($variacao); $x++) {
               ?>
 
