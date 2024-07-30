@@ -474,7 +474,7 @@ if ($formdata) {
                   </div>
                   <!--  Variações                              -->
 
-                  <?php echo $data['variacao'];?>
+                  <?php echo json_decode($data['variacao']);?>
                 </div>
               </div>
 
