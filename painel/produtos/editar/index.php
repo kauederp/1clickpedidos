@@ -472,7 +472,9 @@ if ($formdata) {
                       </a>
                     </h4>
                   </div>
-                  
+                  <!--  Variações                              -->
+
+                  <?php echo $data['variacao'];?>
                 </div>
               </div>
 
