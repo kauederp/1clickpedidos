@@ -1,4 +1,183 @@
 <?php
+/**
+ <div id="collapse-variacao" class="panel-collapse collapse <?php if ($_SESSION['estabelecimento']['funcionalidade_variacao'] == "1") {
+                                                              echo "in";
+                                                            } ?>">
+  <div class="panel-body">
+
+    <?php if ($_SESSION['estabelecimento']['funcionalidade_variacao'] == "1") { ?>
+
+      <!-- Variações -->
+
+      <div class="variacoes">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="render-variacoes">
+
+              <?php
+              $variacao = json_decode($data['variacao'], TRUE);
+              for ($x = 0; $x < count($variacao); $x++) {
+              ?>
+
+                <div class="panel-group panel-filters panel-subvariacao">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a class="subvariacao-link" data-toggle="collapse" href="#collapse-subvariacao-<?php echo $x; ?>">
+                          <div class="row alignmiddle">
+                            <div class="col-md-2 col-sm-2 col-xs-3">
+                              <i class="menos lni lni-minus"></i>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-6">
+                              <span class="variacao-desc" onclick="toggles()"><?php echo htmljson($variacao[$x]['nome']); ?></span>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-3">
+                              <i class="deletar deletar-variacao lni lni-trash"></i>
+                            </div>
+                          </div>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapse-subvariacao-<?php echo $x; ?>" class="subvariacao-body panel-collapse collapse">
+                      <div class="panel-body panel-body-subvariacao">
+                        <div class='variacao' variacao-id=''>
+                          <div class='title'>
+                            <div class='row'>
+                              <div class='col col-md-6 col-sm-12 col-xs-12'>
+                                <div class='form-field-default'>
+                                  <label>Nome da variação:</label>
+                                  <input class='variacao-nome' type='text' name='variacao[<?php echo $x; ?>][nome]' placeholder='Nome' value="<?php echo htmljson($variacao[$x]['nome']); ?>" />
+                                </div>
+                              </div>
+                              <div class='col col-md-3 col-sm-6 col-xs-6'>
+                                <div class='form-field-default'>
+                                  <label>Escolha minima:</label>
+                                  <input class='variacao-escolha-minima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_minima]' min='0' value='<?php echo htmljson($variacao[$x]['escolha_minima']); ?>' />
+                                </div>
+                              </div>
+                              <div class='col col-md-3 col-sm-6 col-xs-6'>
+                                <div class='form-field-default'>
+                                  <label>Escolha máxima:</label>
+                                  <input class='variacao-escolha-maxima numberinput' type='number' name='variacao[<?php echo $x; ?>][escolha_maxima]' min='1' value='<?php echo htmljson($variacao[$x]['escolha_maxima']); ?>' />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class='content'>
+                            <div class='row'>
+                              <div class='col-md-12'>
+                                <div class='render-itens'>
+
+                                  <?php
+                                  for ($y = 0; $y < count($variacao[$x]['item']); $y++) {
+                                  ?>
+
+                                    <div class='col-md-4 col-item' variacao-id='<?php echo $x; ?>' item-id='<?php echo $y; ?>'>
+                                      <div class='item'>
+                                        <div class='title'>
+                                          <div class='row'>
+                                            <div class='col col-md-10 col-sm-10 col-xs-10'>
+                                              <div class='form-field-default'>
+                                                <label>Nome:</label>
+                                                <input class='item-nome' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][nome]' placeholder='Nome' value="<?php echo htmljson($variacao[$x]['item'][$y]['nome']); ?>" />
+                                              </div>
+                                            </div>
+                                            <div class='col col-md-2 col-sm-2 col-xs-2'>
+                                              <div class='remover deletar-item'>
+                                                <i class='lni lni-trash'></i>
+                                              </div>
+
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="esconder text-primary text-<?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) == 'false' ? 'danger' : 'primary'); ?>  esconder-item">
+                                              <div class="col-2"><i class="lni lni-eye "></i></div>
+
+
+                                              <input class="esconder-input" type="hidden" name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][esconder]' value='<?php echo (htmljson($variacao[$x]['item'][$y]['esconder'])); ?>'>
+                                              <span><?php echo (htmljson($variacao[$x]['item'][$y]['esconder']) != 'false') ? "Disponível" : "Indisponível"; ?></span>
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                        <div class='content'>
+                                          <div class='row'>
+                                            <div class='col col-md-12'>
+                                              <div class='form-field-default'>
+                                                <label>Descrição:</label>
+                                                <textarea rows='1' class='item-descricao' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][descricao]' placeholder='Descrição'><?php echo htmljson($variacao[$x]['item'][$y]['descricao']); ?></textarea>
+                                              </div>
+                                            </div>
+                                            <div class='col col-md-12'>
+                                              <div class='form-field-default'>
+                                                <label>Valor adicional:</label>
+                                                <input class='item-valor maskmoney' type='text' name='variacao[<?php echo $x; ?>][item][<?php echo $y; ?>][valor]' placeholder='Valor' value="<?php echo dinheiro(htmljson($variacao[$x]['item'][$y]['valor']), "BR"); ?>" />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  <?php } ?>
+
+                                  <div class='col-md-4'>
+                                    <div class='adicionar adicionar-item'>
+                                      <i class='lni lni-plus'></i>
+                                      <span>Adicionar item</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              <?php } ?>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="adicionar adicionar-variacao">
+              <i class="lni lni-plus"></i>
+              <span>Adicionar variação</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- / Variações -->
+
+    <?php } else { ?>
+
+      <div class="expiration-info variacao-hire">
+        <div class="row">
+          <div class="col-md-9">
+            <span class="msg">O seu plano não possuí suporte para variações de produto, visite a nossa seção de planos e adquira um com a funcionalidade.</span>
+          </div>
+          <div class="col-md-3">
+            <div class="add-new add-center text-center">
+              <a href="<?php panel_url(); ?>/plano/listar">
+                <span>Ver planos</span>
+                <i class="lni lni-plus"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <?php } ?>
+
+  </div>
+</div>
+
+ **/
 // CORE
 include('../../../_core/_includes/config.php');
 // RESTRICT
@@ -492,8 +671,8 @@ if ($formdata) {
 
               <?php
               $variacao = json_decode($data['variacao'], TRUE);
-              echo htmljson($variacao[0]['nome']);
-              echo htmljson($variacao[0]['nome']);
+              //echo htmljson($variacao[0]['nome']);
+              
               for ($x = 0; $x < count($variacao); $x++) {
               ?>
 
@@ -1089,3 +1268,6 @@ include('../../_layout/footer.php');
     $(this).val(strreplacer);
   });
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
